@@ -1,0 +1,12 @@
+create table "User" (username varchar primary key, name varchar, email varchar, password varchar, DOB date, create_date date);
+create table "Books_List" (BID int primary key, username varchar, list_name varchar);
+create table "Book_Reads" (BID int primary key, username varchar, start_date date, end_date date, pages_read int);
+create table "Genre" (g_name varchar);
+create table "Genre_Book" (BID int primary key, g_name varchar);
+create table "Audience_Book" (BID int primary key, audience_name varchar);
+create table "Audience" (audience_name varchar primary key, min_age int, max_age int);
+create table "Book_Ratings" (BID int primary key, username varchar, rating float(2));
+create table "Edits" (BID int primary key, CID int);
+create table "Authors" (BID int primary key, CID int);
+create table "Person" (PID int primary key, f_name varchar, l_name varchar);
+create table "Publisher" (PID int primary key, name varchar);
