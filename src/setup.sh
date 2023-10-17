@@ -3,8 +3,11 @@
 #This file installs all dependencies automatically
 # @Author: Cole Marino (cole1.marino@gmail.com)
 
-py get-pip.py
-echo "Installed pip!"
+python3 -m pip install --upgrade pip
+echo "Updated pip!"
+
+pip install pandas
+echo "Installed Pandas"
 
 pip install psycopg2-binary
 echo "Installed psycopg2-binary"
