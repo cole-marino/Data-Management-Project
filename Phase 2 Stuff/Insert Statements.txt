@@ -1,0 +1,1 @@
+insert into "User"(username, name, email, password, dob, create_date) values ('Penne-Tration', 'Cole Marino', 'cole1.marino@gmail.com', '1one2two:3three4four', 06/09/2003, 17/10/2023);
