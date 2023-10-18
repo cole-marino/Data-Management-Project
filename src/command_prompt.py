@@ -1,7 +1,11 @@
 import psycopg2 as psy
 from sshtunnel import SSHTunnelForwarder
 
-import ACCTDETAILS as AD
+
+# This is not contained in github because it holds personal account info.
+# Contains a getUsername() function and getPassword() function which returns the coders username and password
+##  MAKE YOUR OWN, OTHER BOOKHUB DEVS ##
+import ACCTDETAILS as AD 
 
 def execute_sql(sql):
     try:
@@ -31,14 +35,18 @@ def execute_sql(sql):
             print("DataBase connected!")
 
             # executes command
-            if isinstance(sql, str):
-                curs.execute(sql)
-            elif isinstance(sql, list):
-                for cmd in sql:
-                    curs.execute(cmd)
-            else:
-                print("ERROR: SQL Command invalid type. \nusecase: str, list")
-                conn.close()
+            try:
+                if isinstance(sql, str):
+                    curs.execute(sql)
+                elif isinstance(sql, list):
+                    for cmd in sql:
+                        curs.execute(cmd)
+                else:
+                    print("ERROR: SQL Command invalid type. \nusecase: str, list")
+                    conn.close()
+                    return -1
+            except:
+                print("fuck")
                 return -1
             
             # checks if it worked
@@ -67,6 +75,7 @@ def main():
         command = input()
         print("Running command....")
         result = execute_sql(command)
+        print(result)
 
         if isinstance(result, str):
             print(result)
