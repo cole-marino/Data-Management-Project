@@ -1,3 +1,10 @@
+'''
+This is the main file to run the command-line program.
+    Connection to database and execution of SQL commands occurs here.
+
+@Author: Cole Marino (cvm4043)
+'''
+
 import psycopg2 as psy
 from sshtunnel import SSHTunnelForwarder
 
@@ -8,6 +15,18 @@ from sshtunnel import SSHTunnelForwarder
 import ACCTDETAILS as AD 
 
 def execute_sql(sql):
+    '''
+    Executes given sql commands using an SSH tunnel to connect to the database.
+    @pre: Param 'sql' must be a string or a list of strings, where the list can contain multiple commands
+
+    @param sql: sql commands given by the user, translated from simpler text to SQL.
+
+    @return -1: Error with accessing database or executing SQL commands.
+    @return 1: Success executing SQL commands.
+    @return (str): Success/Error given by database server if execution succeeded.
+
+    @Author: Cole Marino
+    '''
     try:
         with SSHTunnelForwarder(
                     ('starbug.cs.rit.edu', 22),
