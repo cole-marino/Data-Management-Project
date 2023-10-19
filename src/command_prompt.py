@@ -7,7 +7,7 @@ This is the main file to run the command-line program.
 
 import psycopg2 as psy
 from sshtunnel import SSHTunnelForwarder
-
+import command_handler as ch
 
 # This is not contained in github because it holds personal account info.
 # Contains a getUsername() function and getPassword() function which returns the coders username and password
@@ -91,8 +91,22 @@ def main():
 
     # read from stdin
     while(True):
-        command = input()
-        print("Running command....")
+
+        print("What command would you like to perform? \n1) INSERT\n 2) GET\n 3) DELETE\n 4) UPDATE")
+        exe = input()
+        exe.lower()
+
+        match exe:
+            case "insert":
+                command = ch.insert()
+            case "get":
+                command = ch.get()
+            case "delete":
+                command = ch.delete()
+            case "update":
+                command = ch.update()
+
+        print("\nRunning command....")
         result = execute_sql(command)
         print(result)
 
