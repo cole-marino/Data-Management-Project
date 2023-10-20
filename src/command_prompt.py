@@ -92,7 +92,7 @@ def main():
     # read from stdin
     while(True):
 
-        print("What command would you like to perform? \n1) INSERT\n 2) GET\n 3) DELETE\n 4) UPDATE")
+        print("What command would you like to perform? \n1) INSERT\n2) GET\n3) DELETE\n4) UPDATE")
         exe = input()
         exe.lower()
 
