@@ -64,9 +64,7 @@ def execute_sql(sql):
                     print("ERROR: SQL Command invalid type. \nusecase: str, list")
                     conn.close()
                     return -1
-            except:
-                print("fuck")
-                return -1
+            except Exception as e: print(e)
             
             # checks if it worked
             try:

@@ -1,4 +1,4 @@
-import types.user as user
+import user as user
 
 '''
 Uses command-line inputs to create SQL commands with different types helpers
