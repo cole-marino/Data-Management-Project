@@ -7,7 +7,6 @@ def get():
 
     return "SELECT * FROM Users WHERE username LIKE '" + username + "'"
 
-
 def insert():
     print("Enter username")
     username = input()
