@@ -7,7 +7,9 @@ This is the main file to run the command-line program.
 
 import psycopg2 as psy
 from sshtunnel import SSHTunnelForwarder
+
 import command_handler as ch
+import operations.account as acct
 
 # This is not contained in github because it holds personal account info.
 # Contains a getUsername() function and getPassword() function which returns the coders username and password
@@ -64,7 +66,14 @@ def execute_sql(sql):
                     print("ERROR: SQL Command invalid type. \nusecase: str, list")
                     conn.close()
                     return -1
+<<<<<<< HEAD
             except Exception as e: print(e)
+=======
+            except:
+                print("ERROR: SQL Command invalid.")
+                print("fuck")
+                return -1
+>>>>>>> ColeBranch
             
             # checks if it worked
             try:
@@ -86,6 +95,28 @@ def execute_sql(sql):
 def main():
     print("Welcome to BookHub!")
 
+    # sign in page
+    while(True):
+        print("Would you like to sign in or sign up? (signin/signup)")
+        entry = input()
+        if(entry == 'signin'):
+            res = execute_sql(acct.signin())
+            print("res: " + (str)(res))
+            if(res == -1):
+                print("ERROR with entry, please try again and make sure formatting is valid.")
+                continue
+            break
+        elif(entry == 'signup'):
+            res = execute_sql(acct.signup())
+            print("res: " + (str)(res))
+            if(res == -1):
+                print("ERROR with entry, please try again and make sure formatting is valid.")
+                continue
+            break
+        else:
+            print("Invalid entry, try again.")
+
+    print() # Creates spacing
 
     # read from stdin
     while(True):
