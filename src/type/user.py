@@ -1,15 +1,29 @@
+'''
+Handles GET, INSERT, DELETE, UPDATE functions for users type
+
+@Author: Cole Marino
+'''
+
 from datetime import date
 import operations.account as acct
 
 
 
 def get():
+    '''
+    Handles GET command for user type
+    @return: SQL command for GET
+    '''
     print("Enter username")
     username = input()
 
     return "SELECT * FROM Users WHERE username LIKE '" + username + "'"
 
 def insert():
+    '''
+    Handles INSERT command for user type
+    @return: SQL command for INSERT
+    '''
     print("Enter username")
     username = input()
 

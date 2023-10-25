@@ -91,6 +91,7 @@ def execute_sql(sql):
 def main():
     print("Welcome to BookHub!")
 
+    # sign in page
     while(True):
         print("Would you like to sign in or sign up? (signin/signup)")
         entry = input()

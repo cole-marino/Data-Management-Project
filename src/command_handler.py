@@ -9,6 +9,10 @@ types = ["User", "Book", "Author", "Editor", "Publisher"]
 
 
 def default_prompt():
+    '''
+    Asks user that kind of data would they like to get
+    @return: the type being searched for
+    '''
     print("What type of data would you like to get?")
     count=1
     for type in types:
@@ -16,11 +20,19 @@ def default_prompt():
         count+=1
 
     type = input()
+
+    # TODO: ADD checks if valid type
+    
+
     type.lower()
 
     return type
 
 def get():
+    '''
+    Function to handle if entered GET command
+    @return: output from teach types GET command
+    '''
     type = default_prompt()
 
     match type:
@@ -40,6 +52,10 @@ def get():
     
 
 def insert():
+    '''
+    Function to handle if entered INSERT command
+    @return: output from teach types INSERT command
+    '''
     type = default_prompt()
 
     match type:
@@ -58,6 +74,10 @@ def insert():
             insert()
 
 def delete():
+    '''
+    Function to handle if entered DELETE command
+    @return: output from teach types DELETE command
+    '''
     type = default_prompt()
 
     match type:
@@ -76,6 +96,10 @@ def delete():
             delete()
 
 def update():
+    '''
+    Function to handle if entered UPDATE command
+    @return: output from teach types UPDATE command
+    '''
     type = default_prompt()
 
     match type:
