@@ -66,14 +66,10 @@ def execute_sql(sql):
                     print("ERROR: SQL Command invalid type. \nusecase: str, list")
                     conn.close()
                     return -1
-<<<<<<< HEAD
-            except Exception as e: print(e)
-=======
             except:
                 print("ERROR: SQL Command invalid.")
                 print("fuck")
                 return -1
->>>>>>> ColeBranch
             
             # checks if it worked
             try:
@@ -103,14 +99,14 @@ def main():
             res = execute_sql(acct.signin())
             print("res: " + (str)(res))
             if(res == -1):
-                print("ERROR with entry, please try again and make sure formatting is valid.")
+                print("\nERROR with entry, please try again and make sure formatting is valid.")
                 continue
             break
         elif(entry == 'signup'):
             res = execute_sql(acct.signup())
             print("res: " + (str)(res))
             if(res == -1):
-                print("ERROR with entry, please try again and make sure formatting is valid.")
+                print("\nERROR with entry, please try again and make sure formatting is valid.")
                 continue
             break
         else:
@@ -121,7 +117,7 @@ def main():
     # read from stdin
     while(True):
 
-        print("What command would you like to perform? \n1) INSERT\n2) GET\n3) DELETE\n4) UPDATE")
+        print("\nWhat command would you like to perform? \n1) INSERT\n2) GET\n3) DELETE\n4) UPDATE")
         exe = input()
         exe.lower()
 
