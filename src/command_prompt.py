@@ -66,10 +66,10 @@ def execute_sql(sql):
                     print("ERROR: SQL Command invalid type. \nusecase: str, list")
                     conn.close()
                     return -1
-            except Exception as e: print(e)
-                # print("ERROR: SQL Command invalid.")
-                # print("fuck")
-                # return -1
+            except:
+                print("ERROR: SQL Command invalid.")
+                print("fuck")
+                return -1
             
             # checks if it worked
             try:
@@ -88,20 +88,25 @@ def execute_sql(sql):
 
 def main():
     print("Welcome to BookHub!")
-
+    username = ''
     # sign in page
     while(True):
         print("Would you like to sign in or sign up? (signin/signup)")
         entry = input()
         if(entry == 'signin'):
-            res = execute_sql(acct.signin())
+            print("Enter your username:")
+            username = input()
+            print("Enter your password:")
+            password = input()
+            res = execute_sql(acct.signin(username, password))
             print("res: " + (str)(res))
             if(res == -1):
                 print("\nERROR with entry, please try again and make sure formatting is valid.")
                 continue
             break
         elif(entry == 'signup'):
-            res = execute_sql(acct.signup())
+            cmd, username = acct.signup
+            res = execute_sql(cmd)
             print("res: " + (str)(res))
             if(res == -1):
                 print("\nERROR with entry, please try again and make sure formatting is valid.")
@@ -115,19 +120,18 @@ def main():
     # read from stdin
     while(True):
 
-        print("\nWhat command would you like to perform? \n1) INSERT\n2) GET\n3) DELETE\n4) UPDATE")
+        print("\nMain Menu, choose action with corresponding number \n1) New Collection\n2) Follow user\n3) Unfollow user")
         exe = input()
         exe.lower()
 
         match exe:
-            case "insert":
-                command = ch.insert()
-            case "get":
-                command = ch.get()
-            case "delete":
-                command = ch.delete()
-            case "update":
-                command = ch.update()
+            case "1":
+                return
+            case "2":
+                command = acct.followUser(username)
+            case "3":
+                command = acct.unfollowUser(username)
+            
 
         print("\nRunning command....")
         result = execute_sql(command)

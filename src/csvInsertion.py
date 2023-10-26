@@ -1,3 +1,8 @@
+'''
+File created to insert data in bulk into the data base. PLEASE READ WARNING IN MAIN FUNCTION
+
+@Author: Ben McManus (bdm3509)
+'''
 import csv
 import psycopg2 as psy
 from sshtunnel import SSHTunnelForwarder
@@ -192,7 +197,10 @@ def main():
     2: CONFIRM THE COMMANDS ARE CORRECT BY PRINTING THEM
     3: MAKE SURE YOUR RUNNING THE RIGHT FUNCTION
     '''
-    insertBookRatings()
+    cmd = "SELECT following_username FROM followings WHERE follower_username = 'jane_smith'"
+    output = execute_sql(cmd)
+    for i in range(0, len(output)):
+        print(str(i) +") "+ output[i][0])
     
 if __name__ == "__main__":
     main()
