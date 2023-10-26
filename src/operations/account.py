@@ -50,7 +50,12 @@ def viewLists(username):
 def bookSearch():
     return 0
     
-def followUser(username):
+def followUser(username: str):
+    '''
+    Allows user to follow another user
+    @param username: The username wanted to be followed!
+    @return: SQL statement or None
+    '''
     print("Enter the email of the user you wish to follow: ")
     email = input()
     cmd = "SELECT username FROM users WHERE email = '"+email+"'"
@@ -60,7 +65,12 @@ def followUser(username):
     else:
         print("User does not exit")
         
-def unfollowUser(username):
+def unfollowUser(username:str):
+    '''
+    Allows a user to unfollow another user that they are following
+    @param username: the username being unfollowed
+    @return: SQL statement or None
+    '''
     cmd = "SELECT following_username FROM followings WHERE follower_username = '"+username+"'"
     following = cp.execute_sql(cmd)
     if(following != []):
