@@ -28,6 +28,7 @@ def execute_sql(sql):
     @return (str): Success/Error given by database server if execution succeeded.
 
     @Author: Cole Marino
+    @Author: Ben McManus
     '''
     try:
         with SSHTunnelForwarder(

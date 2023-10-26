@@ -1,12 +1,11 @@
 '''
 Handles account-related data operations
 @Author: Cole Marino
+@Author Ben McManus
 '''
 
 import type.user as user
 import command_prompt as cp
-
-
 
 
 def signin(username, password):
