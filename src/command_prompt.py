@@ -66,10 +66,10 @@ def execute_sql(sql):
                     print("ERROR: SQL Command invalid type. \nusecase: str, list")
                     conn.close()
                     return -1
-            except:
-                print("ERROR: SQL Command invalid.")
-                print("fuck")
-                return -1
+            except Exception as e: print(e)
+                # print("ERROR: SQL Command invalid.")
+                # print("fuck")
+                # return -1
             
             # checks if it worked
             try:
@@ -82,9 +82,7 @@ def execute_sql(sql):
             conn.close()
             print("SQL Statement was successfully executed!")
             return result
-    except:
-        print("FATAL ERROR: DataBase Connection Failed!")
-        return -1
+    except Exception as e: print(e)
 
 
 
