@@ -127,10 +127,10 @@ def main():
         exe.lower()
 
         match exe:
-            case "1":
+            case "1":   # settings!
+                command = user.settings(username) 
+            case "2":
                 return
-            case "2":   # settings!
-                command = user.settings(username)
             case "3":
                 command = acct.followUser(username)
             case "4":
