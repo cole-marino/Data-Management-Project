@@ -10,6 +10,7 @@ from sshtunnel import SSHTunnelForwarder
 
 import command_handler as ch
 import operations.account as acct
+import type.user as user
 
 # This is not contained in github because it holds personal account info.
 # Contains a getUsername() function and getPassword() function which returns the coders username and password
@@ -121,17 +122,20 @@ def main():
     # read from stdin
     while(True):
 
-        print("\nMain Menu, choose action with corresponding number \n1) New Collection\n2) Follow user\n3) Unfollow user")
+        print("\nMain Menu, choose action with corresponding number \n1) Account Settings\n2) New Collection\n3) Follow user\n4) Unfollow user")
         exe = input()
         exe.lower()
 
         match exe:
             case "1":
                 return
-            case "2":
-                command = acct.followUser(username)
+            case "2":   # settings!
+                command = user.settings(username)
             case "3":
+                command = acct.followUser(username)
+            case "4":
                 command = acct.unfollowUser(username)
+            
             
 
         print("\nRunning command....")
