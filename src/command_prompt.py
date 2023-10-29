@@ -102,7 +102,7 @@ def main():
             password = input()
             res = execute_sql(acct.signin(username, password))
             print("res: " + (str)(res))
-            if(res == -1):
+            if(res == []):
                 print("\nERROR with entry, please try again and make sure formatting is valid.")
                 continue
             break
