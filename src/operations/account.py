@@ -79,18 +79,21 @@ def bookSearch(name, r_date, author, publisher, genre):
 
     while i < len(cmd_list) - 1 :
         cmd_where += cmd_list[i] + " AND "
+        i += 1
 
-    cmd_where += cmd_list[i + 1]
+    cmd_where += cmd_list[i]
 
-    cmd_book = "SELECT b.title, b.length, b.bid " \
-               "FROM book AS b" \
-               "INNER JOIN authors AS a ON b.bid = a.bid" \
-               "INNER JOIN edits AS e ON b.bid = e.bid" \
-               "INNER JOIN publisher AS pu ON b.pid = pu.pid" \
-               "INNER JOIN person AS pe ON a.cid = pe.cid OR e.cid = pe.cid" \
-               "WHERE" + cmd_where + \
-               "ORDER BY title ASC, release_date ASC"
+    cmd_book = "SELECT b.title, b.length, b.bid, avg(br.rating) " \
+               "FROM book AS b " \
+               "INNER JOIN bookratings AS br ON b.bid = br.bid " \
+               "INNER JOIN authors AS a ON b.bid = a.bid " \
+               "INNER JOIN edits AS e ON b.bid = e.bid " \
+               "INNER JOIN publisher AS pu ON b.pid = pu.pid " \
+               "INNER JOIN person AS pe ON a.cid = pe.cid OR e.cid = pe.cid " \
+               "WHERE " + cmd_where + " " \
+               "ORDER BY title ASC, releasedate ASC "
 
+    print(cmd_book)
 
     return 0
     
