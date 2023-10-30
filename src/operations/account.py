@@ -4,8 +4,8 @@ Handles account-related data operations
 @Author Ben McManus
 '''
 
-import type.user as user
-import command_prompt as cp
+import src.type.user as user
+import src.command_prompt as cp
 
 
 def signin(username, password):
@@ -47,7 +47,51 @@ def viewLists(username):
     #TODO need same thing as newList()
     return 0
 
-def bookSearch():
+def bookSearch(name, r_date, author, publisher, genre):
+
+    valid_date = "<>="
+
+    cmd_list = []
+
+    # look through each parameter being inputted and
+
+    if name != "N/A" :
+        cmd_list.append("title LIKE \"%" + name + "%\"")
+
+    if r_date != "N/A" and r_date[0] in valid_date:
+        cmd_list.append("release_date " + r_date[0] + " " + r_date[1:])
+
+    if author != "N/A" :
+        if " " in author :
+            fname, lname = author.split(" ")
+            cmd_list.append("(f_name LIKE \"%" + fname + "%\" AND l_name LIKE \"%" + lname + "%\")")
+        else :
+            cmd_list.append("(f_name LIKE \"%" + author + "%\" OR l_name LIKE \"%" + author + "%\")")
+
+    if publisher != "N/A" :
+        cmd_list.append("name LIKE \"%" + publisher + "%\"")
+
+    if genre != "N/A" :
+        cmd_list.append("g_name LIKE \"%" + genre + "%\"")
+
+    i = 0
+    cmd_where = ""
+
+    while i < len(cmd_list) - 1 :
+        cmd_where += cmd_list[i] + " AND "
+
+    cmd_where += cmd_list[i + 1]
+
+    cmd_book = "SELECT b.title, b.length, b.bid " \
+               "FROM book AS b" \
+               "INNER JOIN authors AS a ON b.bid = a.bid" \
+               "INNER JOIN edits AS e ON b.bid = e.bid" \
+               "INNER JOIN publisher AS pu ON b.pid = pu.pid" \
+               "INNER JOIN person AS pe ON a.cid = pe.cid OR e.cid = pe.cid" \
+               "WHERE" + cmd_where + \
+               "ORDER BY title ASC, release_date ASC"
+
+
     return 0
     
 def followUser(username):
