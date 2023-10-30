@@ -94,7 +94,7 @@ def bookSearch(name, r_date, author, publisher, genre):
                "INNER JOIN publisher AS pu ON b.pid = pu.pid " \
                "INNER JOIN person AS pe ON a.cid = pe.cid OR e.cid = pe.cid " \
                "WHERE " + cmd_where + " " \
-               "ORDER BY title ASC, releasedate ASC "
+               "ORDER BY b.title ASC, b.releasedate ASC;"
 
     print(cmd_book)
 
