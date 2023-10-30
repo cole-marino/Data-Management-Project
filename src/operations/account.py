@@ -56,23 +56,23 @@ def bookSearch(name, r_date, author, publisher, genre):
     # look through each parameter being inputted and
 
     if name != "N/A" :
-        cmd_list.append("title LIKE \"%" + name + "%\"")
+        cmd_list.append("b.title LIKE \'%" + name + "%\'")
 
     if r_date != "N/A" and r_date[0] in valid_date:
-        cmd_list.append("release_date " + r_date[0] + " " + r_date[1:])
+        cmd_list.append("b.releasedate " + r_date[0] + " \'" + r_date[1:] + "\'")
 
     if author != "N/A" :
         if " " in author :
             fname, lname = author.split(" ")
-            cmd_list.append("(f_name LIKE \"%" + fname + "%\" AND l_name LIKE \"%" + lname + "%\")")
+            cmd_list.append("(pe.fname LIKE \'%" + fname + "%\' AND pe.lname LIKE \'%" + lname + "%\')")
         else :
-            cmd_list.append("(f_name LIKE \"%" + author + "%\" OR l_name LIKE \"%" + author + "%\")")
+            cmd_list.append("(pe.fname LIKE \'%" + author + "%\' OR pe.lname LIKE \'%" + author + "%\')")
 
     if publisher != "N/A" :
-        cmd_list.append("name LIKE \"%" + publisher + "%\"")
+        cmd_list.append("pu.name LIKE \'%" + publisher + "%\'")
 
     if genre != "N/A" :
-        cmd_list.append("g_name LIKE \"%" + genre + "%\"")
+        cmd_list.append("gb.gname LIKE \'%" + genre + "%\'")
 
     i = 0
     cmd_where = ""
@@ -83,11 +83,14 @@ def bookSearch(name, r_date, author, publisher, genre):
 
     cmd_where += cmd_list[i]
 
-    cmd_book = "SELECT b.title, b.length, b.bid, avg(br.rating) " \
-               "FROM book AS b " \
+    cmd_book = "SELECT b.title, b.length, b.avgrating, pe.fname, pe.lname, pu.name, gb.gname " \
+               "FROM (SELECT b1.title, b1.length, b1.bid, b1.pid, b1.releasedate, AVG(br.rating) as avgrating " \
+               "FROM book b1 " \
+               "INNER JOIN bookratings br ON b1.bid = br.bid " \
+               "GROUP BY b1.bid) AS b " \
                "INNER JOIN bookratings AS br ON b.bid = br.bid " \
                "INNER JOIN authors AS a ON b.bid = a.bid " \
-               "INNER JOIN edits AS e ON b.bid = e.bid " \
+               "INNER JOIN genrebook AS gb ON b.bid = gb.bid " \
                "INNER JOIN publisher AS pu ON b.pid = pu.pid " \
                "INNER JOIN person AS pe ON a.cid = pe.cid OR e.cid = pe.cid " \
                "WHERE " + cmd_where + " " \
