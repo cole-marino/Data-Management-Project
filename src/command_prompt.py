@@ -85,8 +85,6 @@ def execute_sql(sql):
             return result
     except Exception as e: print(e)
 
-
-
 def main():
     print("Welcome to BookHub!")
     username = ''
@@ -132,6 +130,8 @@ def main():
                 command = acct.followUser(username)
             case "3":
                 command = acct.unfollowUser(username)
+            case "4":
+                command = acct.bookSearch_parse()
             
 
         print("\nRunning command....")

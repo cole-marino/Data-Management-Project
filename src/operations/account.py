@@ -47,7 +47,16 @@ def viewLists(username):
     #TODO need same thing as newList()
     return 0
 
-def bookSearch(name, r_date, author, publisher, genre):
+def bookSearch_parse():
+    """
+    prompts the user for a book search and parses through to pass arguments to bookSearch_cmd
+    :return: output of the command
+    """
+    cmd_input = input("usage: [book title], [<, > or =][release date (MM/DD/YYYY)], [author], [publisher], [genre]")
+    (name, r_date, author, publisher, genre) = cmd_input.strip().split(", ")
+    output = bookSearch_cmd(name, r_date, author, publisher, genre)
+
+def bookSearch_cmd(name, r_date, author, publisher, genre):
 
     valid_date = "<>="
 
@@ -97,8 +106,9 @@ def bookSearch(name, r_date, author, publisher, genre):
                "ORDER BY b.title ASC, b.releasedate ASC;"
 
     print(cmd_book)
+    out = cp.execute_sql(cmd_book)
 
-    return 0
+    return out
     
 def followUser(username):
     print("Enter the email of the user you wish to follow: ")
