@@ -92,7 +92,7 @@ def bookSearch_cmd(name, r_date, author, publisher, genre):
 
     cmd_where += cmd_list[i]
 
-    cmd_book = "SELECT b.title, b.length, b.avgrating, pe.fname, pe.lname, pu.name, gb.gname " \
+    cmd_book = "SELECT b.title, b.length, b.avgrating, string_agg(DISTINCT(CONCAT(pe.fname,' ', pe.lname)), ', ') AS authors, pu.name AS Publisher, string_agg(DISTINCT(gb.gname), ', ') as genres " \
                "FROM (SELECT b1.title, b1.length, b1.bid, b1.pid, b1.releasedate, AVG(br.rating) as avgrating " \
                "FROM book b1 " \
                "INNER JOIN bookratings br ON b1.bid = br.bid " \
@@ -103,6 +103,7 @@ def bookSearch_cmd(name, r_date, author, publisher, genre):
                "INNER JOIN publisher AS pu ON b.pid = pu.pid " \
                "INNER JOIN person AS pe ON a.cid = pe.cid OR e.cid = pe.cid " \
                "WHERE " + cmd_where + " " \
+               "GROUP BY b.bid, pu.pid, b.title, b.length, b.avgrating, b.releasedate " \
                "ORDER BY b.title ASC, b.releasedate ASC;"
 
     print(cmd_book)
