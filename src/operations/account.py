@@ -52,11 +52,22 @@ def bookSearch_parse():
     prompts the user for a book search and parses through to pass arguments to bookSearch_cmd
     :return: output of the command
     """
-    cmd_input = input("usage: [book title], [<, > or =][release date (MM/DD/YYYY)], [author], [publisher], [genre]")
+    cmd_input = input("What book are you looking for? (use N/A to fill out any unknown fields)\n"
+                      "Usage: [book title], [<, > or =][release date (MM/DD/YYYY)], [author], [publisher], [genre]\n")
     (name, r_date, author, publisher, genre) = cmd_input.strip().split(", ")
     output = bookSearch_cmd(name, r_date, author, publisher, genre)
+    return output
 
 def bookSearch_cmd(name, r_date, author, publisher, genre):
+    """
+    Builds the SQL Command to complete the book search
+    :param name: book title to search by
+    :param r_date: release data of the book with a prefix <>=
+    :param author: author to search by
+    :param publisher: publisher to search by
+    :param genre: genre to search by
+    :return: SQL command as a string
+    """
 
     valid_date = "<>="
 
@@ -92,24 +103,23 @@ def bookSearch_cmd(name, r_date, author, publisher, genre):
 
     cmd_where += cmd_list[i]
 
-    cmd_book = "SELECT b.title, b.length, b.avgrating, string_agg(DISTINCT(CONCAT(pe.fname,' ', pe.lname)), ', ') AS authors, pu.name AS Publisher, string_agg(DISTINCT(gb.gname), ', ') as genres " \
-               "FROM (SELECT b1.title, b1.length, b1.bid, b1.pid, b1.releasedate, AVG(br.rating) as avgrating " \
-               "FROM book b1 " \
-               "INNER JOIN bookratings br ON b1.bid = br.bid " \
-               "GROUP BY b1.bid) AS b " \
-               "INNER JOIN bookratings AS br ON b.bid = br.bid " \
-               "INNER JOIN authors AS a ON b.bid = a.bid " \
-               "INNER JOIN genrebook AS gb ON b.bid = gb.bid " \
-               "INNER JOIN publisher AS pu ON b.pid = pu.pid " \
-               "INNER JOIN person AS pe ON a.cid = pe.cid OR e.cid = pe.cid " \
-               "WHERE " + cmd_where + " " \
-               "GROUP BY b.bid, pu.pid, b.title, b.length, b.avgrating, b.releasedate " \
-               "ORDER BY b.title ASC, b.releasedate ASC;"
+    cmd_book = "SELECT b.title, b.length, ROUND(b.avgrating, 2), string_agg(DISTINCT(CONCAT(pe.fname,' ', pe.lname)), ', ') AS authors, pu.name AS Publisher, string_agg(DISTINCT(gb.gname), ', ') as genres \n" \
+               "FROM (SELECT b1.title, b1.length, b1.bid, b1.pid, b1.releasedate, AVG(br.rating) as avgrating \n" \
+               "FROM book b1 \n" \
+               "INNER JOIN bookratings br ON b1.bid = br.bid \n" \
+               "GROUP BY b1.bid) AS b \n" \
+               "INNER JOIN bookratings AS br ON b.bid = br.bid \n" \
+               "INNER JOIN authors AS a ON b.bid = a.bid \n" \
+               "INNER JOIN genrebook AS gb ON b.bid = gb.bid \n" \
+               "INNER JOIN publisher AS pu ON b.pid = pu.pid \n" \
+               "INNER JOIN person AS pe ON a.cid = pe.cid \n" \
+               "WHERE " + cmd_where + " \n" \
+               "GROUP BY b.bid, pu.pid, b.title, b.length, b.avgrating, b.releasedate \n" \
+               "ORDER BY b.title ASC, b.releasedate ASC;\n"
 
     print(cmd_book)
-    out = cp.execute_sql(cmd_book)
 
-    return out
+    return cmd_book
     
 def followUser(username):
     print("Enter the email of the user you wish to follow: ")

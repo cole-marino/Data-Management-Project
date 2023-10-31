@@ -119,7 +119,7 @@ def main():
     # read from stdin
     while(True):
 
-        print("\nMain Menu, choose action with corresponding number \n1) New Collection\n2) Follow user\n3) Unfollow user")
+        print("\nMain Menu, choose action with corresponding number \n1) New Collection\n2) Follow user\n3) Unfollow user\n4) Search Books")
         exe = input()
         exe.lower()
 
