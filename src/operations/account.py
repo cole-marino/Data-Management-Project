@@ -45,14 +45,14 @@ def viewLists(username):
     #TODO need same thing as newList()
     return 0
 
-def bookRatePrompt(username):
+def bookRate_parse(username):
     """
-    "Houses the bookRate Function for use in the command prompt interface"
+    "Houses the bookRate Function for use in the command prompt interface. provides a user prompt for info."
     :return: SQL command
     """
 
     prompt = input("Please provide the book and its rating (1-5)\n"
-                   "Usage: [book], [rating]")
+                   "Usage: [book], [rating]\n")
     cmd_input = prompt.strip().split(", ")
     out = bookRate(cmd_input[0], cmd_input[1], username)
     return out
