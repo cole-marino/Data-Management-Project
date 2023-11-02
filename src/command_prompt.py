@@ -5,6 +5,7 @@ This is the main file to run the command-line program.
 @Author: Cole Marino (cvm4043)
 '''
 
+import sys
 import psycopg2 as psy
 from sshtunnel import SSHTunnelForwarder
 
@@ -101,6 +102,7 @@ def main():
             print("Enter your password:")
             password = input()
             res = execute_sql(acct.signin(username, password))
+            print(res)
             if(res == []):
                 print("\nERROR with entry, please try again and make sure formatting is valid.")
                 continue
@@ -136,6 +138,8 @@ def main():
                 command = acct.bookSearch_parse()
             case "5":
                 command = bk.getUserLists(username)
+            case "5":
+                sys.exit()
             
             
 
