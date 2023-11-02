@@ -10,6 +10,7 @@ from sshtunnel import SSHTunnelForwarder
 
 import command_handler as ch
 import operations.account as acct
+import operations.book as bk
 
 # This is not contained in github because it holds personal account info.
 # Contains a getUsername() function and getPassword() function which returns the coders username and password
@@ -67,10 +68,10 @@ def execute_sql(sql):
                     print("ERROR: SQL Command invalid type. \nusecase: str, list")
                     conn.close()
                     return -1
-            except:
-                print("ERROR: SQL Command invalid.")
-                print("fuck")
-                return -1
+            except Exception as e: print(e)
+                # print("ERROR: SQL Command invalid.")
+                # print("fuck")
+                # return -1
             
             # checks if it worked
             try:
@@ -119,27 +120,28 @@ def main():
     # read from stdin
     while(True):
 
-        print("\nMain Menu, choose action with corresponding number \n1) New Collection\n2) Follow user\n3) Unfollow user\n4) Search Books")
+        print("\nMain Menu, choose action with corresponding number \n1) Follow user\n2) Unfollow user\n3) Search Books")
         exe = input()
         exe.lower()
 
         match exe:
             case "1":
-                return
-            case "2":
                 command = acct.followUser(username)
-            case "3":
+            case "2":
                 command = acct.unfollowUser(username)
-            case "4":
+            case "3":
                 command = acct.bookSearch_parse()
+            case "4":
+                command = bk.getUserLists(username)
             
 
-        print("\nRunning command....")
-        result = execute_sql(command)
-        print(result)
-
-        if isinstance(result, str):
+        if command != None:
+            print("\nRunning command....")
+            result = execute_sql(command)
             print(result)
+
+        # if isinstance(result, str):
+        #     print(result)
 
 
 if __name__ == "__main__":

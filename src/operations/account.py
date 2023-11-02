@@ -4,8 +4,8 @@ Handles account-related data operations
 @Author Ben McManus
 '''
 
-import src.type.user as user
-import src.command_prompt as cp
+import type.user as user
+import command_prompt as cp
 
 
 def signin(username, password):
@@ -56,6 +56,9 @@ def bookSearch_parse():
                       "Usage: [book title], [<, > or =][release date (MM/DD/YYYY)], [author], [publisher], [genre]\n")
     (name, r_date, author, publisher, genre) = cmd_input.strip().split(", ")
     output = bookSearch_cmd(name, r_date, author, publisher, genre)
+    books = cp.execute_sql(output)
+    for i in range(0, len(books)):
+        print(str(i) +") "+books[i][0] + ", Author: "+ books[i][3]+ ", Publisher: "+ books[i][4] + ", Length: "+ str(books[i][1]) + " pages, Rating: " + str(books[i][2]) + "stars")
     return output
 
 def bookSearch_cmd(name, r_date, author, publisher, genre):
@@ -103,7 +106,7 @@ def bookSearch_cmd(name, r_date, author, publisher, genre):
 
     cmd_where += cmd_list[i]
 
-    cmd_book = "SELECT b.title, b.length, ROUND(b.avgrating, 2), string_agg(DISTINCT(CONCAT(pe.fname,' ', pe.lname)), ', ') AS authors, pu.name AS Publisher, string_agg(DISTINCT(gb.gname), ', ') as genres \n" \
+    cmd_book = "SELECT b.title, b.length, ROUND(CAST(b.avgrating as numeric), 2), string_agg(DISTINCT(CONCAT(pe.fname,' ', pe.lname)), ', ') AS authors, pu.name AS Publisher, string_agg(DISTINCT(gb.gname), ', ') as genres \n" \
                "FROM (SELECT b1.title, b1.length, b1.bid, b1.pid, b1.releasedate, AVG(br.rating) as avgrating \n" \
                "FROM book b1 \n" \
                "INNER JOIN bookratings br ON b1.bid = br.bid \n" \
