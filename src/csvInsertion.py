@@ -96,7 +96,7 @@ def insertBooks():
     for x in file:
         strip = x.strip('\n')
         data = strip.split(',')
-        cmd = "INSERT INTO book(bid, title, release_date, length, pid) VALUES ('"+data[0]+"', '"+data[1]+"', '"+data[2]+"', '"+data[3]+"', '"+data[4]+"')"
+        cmd = "INSERT INTO book(bid, title, releasedate, length, pid) VALUES ('"+data[0]+"', '"+data[1]+"', '"+data[2]+"', '"+data[3]+"', '"+data[4]+"')"
         execute_sql(cmd)
         
 def insertPublishers():
