@@ -10,7 +10,11 @@ from sshtunnel import SSHTunnelForwarder
 
 import command_handler as ch
 import operations.account as acct
+<<<<<<< HEAD
 import operations.book as bk
+=======
+import type.user as user
+>>>>>>> main
 
 # This is not contained in github because it holds personal account info.
 # Contains a getUsername() function and getPassword() function which returns the coders username and password
@@ -68,10 +72,16 @@ def execute_sql(sql):
                     print("ERROR: SQL Command invalid type. \nusecase: str, list")
                     conn.close()
                     return -1
+<<<<<<< HEAD
             except Exception as e: print(e)
                 # print("ERROR: SQL Command invalid.")
                 # print("fuck")
                 # return -1
+=======
+            except:
+                print("ERROR: SQL Command invalid.")
+                return -1
+>>>>>>> main
             
             # checks if it worked
             try:
@@ -99,16 +109,15 @@ def main():
             print("Enter your password:")
             password = input()
             res = execute_sql(acct.signin(username, password))
-            print("res: " + (str)(res))
-            if(res == -1):
+            if(res == []):
                 print("\nERROR with entry, please try again and make sure formatting is valid.")
                 continue
             break
         elif(entry == 'signup'):
-            cmd, username = acct.signup
+            cmd = acct.signup()
             res = execute_sql(cmd)
             print("res: " + (str)(res))
-            if(res == -1):
+            if(res == []):
                 print("\nERROR with entry, please try again and make sure formatting is valid.")
                 continue
             break
@@ -120,19 +129,34 @@ def main():
     # read from stdin
     while(True):
 
+<<<<<<< HEAD
         print("\nMain Menu, choose action with corresponding number \n1) Follow user\n2) Unfollow user\n3) Search Books")
+=======
+        print("\nMain Menu, choose action with corresponding number \n1) Account Settings\n2) New Collection\n3) Follow user\n4) Unfollow user")
+>>>>>>> main
         exe = input()
         exe.lower()
 
         match exe:
+<<<<<<< HEAD
             case "1":
                 command = acct.followUser(username)
             case "2":
+=======
+            case "1":   # settings!
+                command = user.settings(username) 
+            case "2":
+                return
+            case "3":
+                command = acct.followUser(username)
+            case "4":
+>>>>>>> main
                 command = acct.unfollowUser(username)
             case "3":
                 command = acct.bookSearch_parse()
             case "4":
                 command = bk.getUserLists(username)
+            
             
 
         if command != None:

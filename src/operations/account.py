@@ -8,26 +8,6 @@ import type.user as user
 import command_prompt as cp
 
 
-def signin(username, password):
-    '''
-    Sign in function for a user
-        Gets username and password, checks if they are correct, and gets user data
-
-    @return [correct info]: list of user table data
-    @return [incorrect info/no user]: empty list
-    '''
-    
-    cmd = "SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "';"
-    return cmd
-
-def signup():
-    '''
-    Signs up a new user
-        Directs to insert function for user
-    '''
-    return user.insert()
-
-
 def check_if_exists(username : str):
     '''
     Checks if a user exists by checking SQL users table
@@ -38,6 +18,24 @@ def check_if_exists(username : str):
     out = cp.execute_sql(cmd)
 
     return out
+
+def signin(username, password):
+    '''
+    Sign in function for a user
+        Gets username and password, checks if they are correct, and gets user data
+
+    @return [correct info]: list of user table data
+    @return [incorrect info/no user]: empty list
+    '''
+    cmd = "SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "';"
+    return cmd
+
+def signup():
+    '''
+    Signs up a new user
+        Directs to insert function for user
+    '''
+    return user.insert()
 
 def newList(username):
     #TODO need a table to store user book lists
