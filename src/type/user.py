@@ -7,8 +7,6 @@ Handles GET, INSERT, DELETE, UPDATE functions for users type
 from datetime import date
 import operations.account as acct
 
-
-
 def get():
     '''
     Handles GET command for user type
@@ -55,7 +53,6 @@ def insert():
 
     ### Make it check if username already exists
     cmd = "INSERT INTO users(username, name, email, password, dob, create_date) VALUES ('"+username+"', '"+(f_name+" "+l_name)+"', '"+email+"', '"+password+"', '"+dob+"', '"+today+"');"
-    print(cmd)
     return cmd
 
 
