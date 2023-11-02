@@ -5,6 +5,7 @@ This is the main file to run the command-line program.
 @Author: Cole Marino (cvm4043)
 '''
 
+import sys
 import psycopg2 as psy
 from sshtunnel import SSHTunnelForwarder
 
@@ -121,7 +122,7 @@ def main():
     # read from stdin
     while(True):
 
-        print("\nMain Menu, choose action with corresponding number \n1) Account Settings\n2) New Collection\n3) Follow user\n4) Unfollow user")
+        print("\nMain Menu, choose action with corresponding number \n1) Account Settings\n2) New Collection\n3) Follow user\n4) Unfollow user\n5) Exit")
         exe = input()
         exe.lower()
 
@@ -134,6 +135,8 @@ def main():
                 command = acct.followUser(username)
             case "4":
                 command = acct.unfollowUser(username)
+            case "5":
+                sys.exit()
             
             
 
