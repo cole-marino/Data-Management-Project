@@ -70,7 +70,6 @@ def execute_sql(sql):
                     return -1
             except:
                 print("ERROR: SQL Command invalid.")
-                print("fuck")
                 return -1
             
             # checks if it worked
