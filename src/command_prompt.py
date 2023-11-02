@@ -10,7 +10,11 @@ from sshtunnel import SSHTunnelForwarder
 
 import command_handler as ch
 import operations.account as acct
+<<<<<<< HEAD
+import operations.book as bk
+=======
 import type.user as user
+>>>>>>> main
 
 # This is not contained in github because it holds personal account info.
 # Contains a getUsername() function and getPassword() function which returns the coders username and password
@@ -68,9 +72,16 @@ def execute_sql(sql):
                     print("ERROR: SQL Command invalid type. \nusecase: str, list")
                     conn.close()
                     return -1
+<<<<<<< HEAD
+            except Exception as e: print(e)
+                # print("ERROR: SQL Command invalid.")
+                # print("fuck")
+                # return -1
+=======
             except:
                 print("ERROR: SQL Command invalid.")
                 return -1
+>>>>>>> main
             
             # checks if it worked
             try:
@@ -84,8 +95,6 @@ def execute_sql(sql):
             print("SQL Statement was successfully executed!")
             return result
     except Exception as e: print(e)
-
-
 
 def main():
     print("Welcome to BookHub!")
@@ -120,11 +129,20 @@ def main():
     # read from stdin
     while(True):
 
+<<<<<<< HEAD
+        print("\nMain Menu, choose action with corresponding number \n1) Follow user\n2) Unfollow user\n3) Search Books")
+=======
         print("\nMain Menu, choose action with corresponding number \n1) Account Settings\n2) New Collection\n3) Follow user\n4) Unfollow user")
+>>>>>>> main
         exe = input()
         exe.lower()
 
         match exe:
+<<<<<<< HEAD
+            case "1":
+                command = acct.followUser(username)
+            case "2":
+=======
             case "1":   # settings!
                 command = user.settings(username) 
             case "2":
@@ -132,16 +150,22 @@ def main():
             case "3":
                 command = acct.followUser(username)
             case "4":
+>>>>>>> main
                 command = acct.unfollowUser(username)
+            case "3":
+                command = acct.bookSearch_parse()
+            case "4":
+                command = bk.getUserLists(username)
             
             
 
-        print("\nRunning command....")
-        result = execute_sql(command)
-        print(result)
-
-        if isinstance(result, str):
+        if command != None:
+            print("\nRunning command....")
+            result = execute_sql(command)
             print(result)
+
+        # if isinstance(result, str):
+        #     print(result)
 
 
 if __name__ == "__main__":
