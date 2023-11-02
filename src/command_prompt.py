@@ -100,6 +100,7 @@ def main():
             print("Enter your password:")
             password = input()
             res = execute_sql(acct.signin(username, password))
+            print(res)
             if(res == []):
                 print("\nERROR with entry, please try again and make sure formatting is valid.")
                 continue

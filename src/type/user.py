@@ -5,6 +5,8 @@ Handles GET, INSERT, DELETE, UPDATE functions for users type
 '''
 
 from datetime import date
+from datetime import datetime
+
 import operations.account as acct
 
 def get():
@@ -47,13 +49,14 @@ def insert():
     dob = input()
     
     # gets todays date
-    today = (str)(date.today())
+    today = str(date.today())
     today.replace('/', '-')
 
 
     ### Make it check if username already exists
-    cmd = "INSERT INTO users(username, name, email, password, dob, create_date) VALUES ('"+username+"', '"+(f_name+" "+l_name)+"', '"+email+"', '"+password+"', '"+dob+"', '"+today+"');"
-    return cmd
+    cmd = "INSERT INTO users(username, name, email, password, dob, createdate) VALUES ('"+username+"', '"+(f_name+" "+l_name)+"', '"+email+"', '"+password+"', '"+dob+"', '"+today+"');"
+    print(cmd)
+    return str(cmd)
 
 
 def delete(username : str):
