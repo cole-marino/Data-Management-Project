@@ -4,8 +4,8 @@ Handles account-related data operations
 @Author Ben McManus
 '''
 
-import type.user as user
-import command_prompt as cp
+import src.type.user as user
+import src.command_prompt as cp
 
 
 def check_if_exists(username : str):
@@ -44,6 +44,35 @@ def newList(username):
 def viewLists(username):
     #TODO need same thing as newList()
     return 0
+
+def bookRatePrompt(username):
+    """
+    "Houses the bookRate Function for use in the command prompt interface"
+    :return: SQL command
+    """
+
+    prompt = input("Please provide the book and its rating (1-5)\n"
+                   "Usage: [book], [rating]")
+    cmd_input = prompt.strip().split(", ")
+    out = bookRate(cmd_input[0], cmd_input[1], username)
+    return out
+
+
+def bookRate(book, rating, username):
+    """
+    returns an SQL command as a string to rate the book as named by the variable book
+    :param book: exact title of the book
+    :param rating: the rating of the book
+    :param username: username of the user rating the book
+    :return: SQL command as a string
+    """
+    cmd = "INSERT INTO bookratings(bid, username, rating)\n" \
+            "SELECT bid, '" + username + "', " + rating + "\n"  \
+            "FROM book\n" \
+            "WHERE title = '" + book + "'\n" \
+            "LIMIT 1;" \
+
+    return cmd
 
 def bookSearch():
     return 0
