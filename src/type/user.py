@@ -55,7 +55,6 @@ def insert():
 
     ### Make it check if username already exists
     cmd = "INSERT INTO users(username, name, email, password, dob, createdate) VALUES ('"+username+"', '"+(f_name+" "+l_name)+"', '"+email+"', '"+password+"', '"+dob+"', '"+today+"');"
-    print(cmd)
     return str(cmd)
 
 
