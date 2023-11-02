@@ -10,6 +10,7 @@ from sshtunnel import SSHTunnelForwarder
 
 import command_handler as ch
 import operations.account as acct
+import operations.book as bk
 import type.user as user
 
 # This is not contained in github because it holds personal account info.
@@ -66,10 +67,12 @@ def execute_sql(sql):
                         curs.execute(cmd)
                 else:
                     print("ERROR: SQL Command invalid type. \nusecase: str, list")
+                    print(sql)
                     conn.close()
                     return -1
             except:
                 print("ERROR: SQL Command invalid.")
+                print("bruh")
                 return -1
             
             # checks if it worked
@@ -84,8 +87,6 @@ def execute_sql(sql):
             print("SQL Statement was successfully executed!")
             return result
     except Exception as e: print(e)
-
-
 
 def main():
     print("Welcome to BookHub!")
@@ -120,28 +121,31 @@ def main():
     # read from stdin
     while(True):
 
-        print("\nMain Menu, choose action with corresponding number \n1) Account Settings\n2) New Collection\n3) Follow user\n4) Unfollow user")
+        print("\nMain Menu, choose action with corresponding number \n1) Account Settings\n2) Follow user\n3) Unfollow user\n4) Search books\n5)Get your book lists")
         exe = input()
         exe.lower()
 
         match exe:
-            case "1":   # settings!
+            case "1": 
                 command = user.settings(username) 
             case "2":
-                return
-            case "3":
                 command = acct.followUser(username)
-            case "4":
+            case "3":
                 command = acct.unfollowUser(username)
+            case "4":
+                command = acct.bookSearch_parse()
+            case "5":
+                command = bk.getUserLists(username)
             
             
 
-        print("\nRunning command....")
-        result = execute_sql(command)
-        print(result)
-
-        if isinstance(result, str):
+        if command != None:
+            print("\nRunning command....")
+            result = execute_sql(command)
             print(result)
+
+        # if isinstance(result, str):
+        #     print(result)
 
 
 if __name__ == "__main__":
