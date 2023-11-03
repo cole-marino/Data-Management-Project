@@ -1,7 +1,8 @@
 '''
 Handles account-related data operations
 @Author: Cole Marino
-@Author Ben McManus
+@Author: Ben McManus
+@Author: Hunter Boggan (hab1466)
 '''
 
 import type.user as user
