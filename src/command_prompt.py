@@ -9,7 +9,6 @@ import sys
 import psycopg2 as psy
 from sshtunnel import SSHTunnelForwarder
 
-import command_handler as ch
 import operations.account as acct
 import operations.book as bk
 import type.user as user
@@ -128,9 +127,9 @@ def main():
             case "1": 
                 command = user.settings(username) 
             case "2":
-                command = acct.follow_User(username)
+                command = user.follow_User(username)
             case "3":
-                command = acct.unfollow_User(username)
+                command = user.unfollow_User(username)
             case "4":
                 command = bk.book_Search_parse()
             case "5":
