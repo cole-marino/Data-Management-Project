@@ -47,15 +47,15 @@ def get_user_lists(username):
     @param username: Users username.
     @return: None
     '''
-    command = "SELECT bl.username AS list_owner,\
+    command = "SELECT bl.username AS listowner,\
             bl.listname,\
-            COUNT(bl.bid) AS number_of_books, \
-            SUM(b.length) AS total_length \
+            COUNT(bl.bid) AS numberofbooks, \
+            SUM(b.length) AS totallength \
             FROM bookslist bl  \
             JOIN book b ON bl.bid = b.bid \
             WHERE bl.username = '"+username+"' \
             GROUP BY bl.username, bl.listname  \
-            ORDER BY listname ASC, list_owner;" 
+            ORDER BY listname ASC, listowner;" 
             
     
     #options to view lists otherwise       
@@ -63,7 +63,7 @@ def get_user_lists(username):
     
     print("\n") # spacing
     for i in range(0, len(result)):
-        print(str(i) +") "+ result[0][1] + ", Number of Books: " + str(result[0][2]) + ", Total Pages: " + str(result[0][2]))
+        print(str(i+1) +") '"+ result[0][1] + "' || Number of Books: " + str(result[0][2]) + " || Total Pages: " + str(result[0][2]))
         
     list_num = int(input("\nEnter list number to view list, hit enter to return to menu.\n"))
     print() # creates spacing
