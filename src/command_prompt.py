@@ -128,6 +128,7 @@ def main():
               \n\n6) View your book lists\
               \n7) Create a book list\
               \n8) Delete a book list\
+              \n9) Add a book to your book list\
               \n(exit)")
         exe = input()
         exe.lower()
@@ -148,7 +149,9 @@ def main():
             case "6":
                 command = user_acct.get_user_lists(username)
             case "7":
-                command =""
+                command = user_acct.create_user_list(username)
+            case "8":
+                command=user_acct.add_to_list(username)
             case "exit":
                 sys.exit()
             case _:

@@ -26,14 +26,14 @@ def book_Search_parse():
         publisher = cmd_input[3]
         genre = cmd_input[4]
 
-    output = book_Search_cmd(name, r_date, author, publisher, genre)
+    output = book_search_cmd(name, r_date, author, publisher, genre)
     books = cp.execute_sql(output)
     for i in range(0, len(books)):
         print(str(i+1) +") "+books[i][0] + "\n Author: "+ books[i][3]+ "\n Publisher: "+ books[i][4] + "\n Length: "+ str(books[i][1]) + " pages\n Rating: " + str(books[i][2]) + "stars\n")
     return output
 
 
-def book_Search_cmd(name, r_date, author, publisher, genre):
+def book_search_cmd(name, r_date, author, publisher, genre):
     """
     Builds the SQL Command to complete the book search
     :param name: book title to search by
@@ -71,6 +71,10 @@ def book_Search_cmd(name, r_date, author, publisher, genre):
 
     i = 0
     cmd_where = ""
+    if cmd_list == []:
+        cmd_where = ""
+    else:
+        cmd_where = "WHERE "
 
     while i < len(cmd_list) - 1 :
         cmd_where += cmd_list[i] + " AND "
@@ -88,7 +92,7 @@ def book_Search_cmd(name, r_date, author, publisher, genre):
                "INNER JOIN genrebook AS gb ON b.bid = gb.bid \n" \
                "INNER JOIN publisher AS pu ON b.pid = pu.pid \n" \
                "INNER JOIN person AS pe ON a.cid = pe.cid \n" \
-               "WHERE " + cmd_where + " \n" \
+               + cmd_where + " \n" \
                "GROUP BY b.bid, pu.pid, b.title, b.length, b.avgrating, b.releasedate \n" \
                "ORDER BY b.title ASC, b.releasedate ASC;\n"
 
