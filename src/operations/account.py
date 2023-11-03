@@ -8,7 +8,6 @@ Handles account-related data operations
 import type.user as user
 import command_prompt as cp
 from datetime import datetime
-from datetime import date
 
 
 def check_if_exists(username : str):
@@ -47,12 +46,11 @@ def record_access(username:str):
     @param username: The username of the person signing in
     @return: SQL command to be executed
     '''
-    today = str(date.today())
+    today = str(datetime.now)
     today.replace('/', '-')
     
-    time = str(datetime.now())
     
-    cmd = "INSERT INTO accesses(username, accessdate, accesstime) VALUES('"+username+"', '"+today+"', '"+time+"')"
+    cmd = "INSERT INTO access(username, accesstime) VALUES('"+username+"', '"+today+"')"
     return cmd
     
 

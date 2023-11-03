@@ -120,7 +120,7 @@ def main():
     # read from stdin
     while(True):
 
-        print("\nMain Menu, choose action with corresponding number \n1) Account Settings\n2) Follow user\n3) Unfollow user\n4) Search books\n5) Get your book lists\n6) Rate a book\n(exit)")
+        print("\nMain Menu, choose action with corresponding number \n1) Account Settings\n2) Follow user\n3) Unfollow user\n4) Search books\n5) Get your book lists\n6) Rate a book\n7) Record a reading session\n(exit)")
         exe = input()
         exe.lower()
 
@@ -139,6 +139,8 @@ def main():
                 command = bk.get_User_Lists(username)
             case "6":
                 command = bk.book_Rate_parse(username)
+            case "7":
+                command = bk.book_Read_Parse(username)
             case "exit":
                 sys.exit()
             case _:

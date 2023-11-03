@@ -3,9 +3,12 @@ This handles book related functions such as grabbing book lists and such.
 
 @Author: Tomasz Mazur
 @Author: Cole Marino (cvm4043)
+@Author: Hunter Boggan (hab1466)
 '''
 import type.user as user
 import command_prompt as cp
+from datetime import date
+from datetime import datetime
 
 def view_User_List(username, listName):
     '''
@@ -179,3 +182,50 @@ def book_Rate(book, rating, username):
             "LIMIT 1;" \
 
     return cmd
+
+
+def book_Read_Parse(username):
+    '''
+    Parses the input for recording a reading session for a user and calls the command function
+    @param username: The username of the user recording a reading session
+    @return: SQL command to be executed
+    '''
+    
+    prompt = input("Please provide the title of the book and the starting and ending pages of your session\n"
+                   "Usage: [book title], [start time], [end time], [starting page], [ending page]\n"
+                   "Start time and End Time should be entered in a MM DD YYYY  HH:MM(AM/PM) format\n")
+    cmd_input = prompt.strip().split(", ")
+    out = book_Read(username, cmd_input[0], cmd_input[1], cmd_input[2], cmd_input[3], cmd_input[4])
+    return out
+    
+    
+
+def book_Read(username, book, starttime, endtime, startpage, endpage):
+    '''
+    Records a reading session for a user and returns the necessary command
+    @param username: The username of the user recording a reading session
+    @param book: The title of the book the user read
+    @param starttime: The time the user started reading
+    @param endtime: The time the user stopped reading
+    @param startpage: The page the user started on
+    @param endpage: The page the user ended on
+    @return: SQL command to be executed
+    '''
+    
+    cmd = "SELECT bid FROM book WHERE title = '"+book+"'"
+    res = cp.execute_sql(cmd)
+    res_str = str(res[0][0])
+    
+    pages = int(endpage) - int(startpage)
+    pages_str = str(pages)
+    
+    start = datetime.strptime(starttime, '%b %d %Y %I:%M%p')
+    start_str = str(start)
+    print(start_str)
+    end = datetime.strptime(endtime, '%b %d %Y %I:%M%p')
+    end_str = str(end)
+    print(end_str)
+    
+    read_cmd = "INSERT INTO bookreads(bid, username, startdate, enddate, pagesread) VALUES ('"+res_str+"', '"+username+"'"+start_str+"', '"+end_str+"', '"+pages_str+"')"
+    
+    return read_cmd
