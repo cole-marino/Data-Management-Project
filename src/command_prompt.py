@@ -152,7 +152,7 @@ def main():
             case "7":
                 command = user_acct.create_user_list(username)
             case "8":
-                command=user_acct.add_to_list(username)
+                command = user_acct.add_to_list(username)
             case "9":
                 command = bk.book_Read_Parse(username)
             case "exit":
