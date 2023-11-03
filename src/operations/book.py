@@ -1,7 +1,16 @@
+'''
+This handles book related functions such as grabbing book lists and such.
+
+@Author: Tomasz Mazur
+@Author: Cole Marino (cvm4043)
+'''
 import type.user as user
 import command_prompt as cp
 
 def viewUserList(username, listName):
+    '''
+    
+    '''
     command = "SELECT b.title AS book_name, \
        CONCAT(p.f_name, ' ', p.l_name) AS author, \
        br.start_date, \
@@ -17,10 +26,17 @@ def viewUserList(username, listName):
     AND bl.list_name = 'your_list_name';"
     
     result = cp.execute_sql(command)
-    print(result)
+    #print(result)
 
 
 def getUserLists(username, listOnly):
+    '''
+    Gets all the lists which a user has.
+    @param username: Users username.
+    @param listOnly: boolean to display user lists or not
+    @return (listsonly true): string of command to select lists
+    @return (listsonly false): None
+    '''
     command = "SELECT bl.username AS list_owner,\
             bl.listname,\
             COUNT(bl.bid) AS number_of_books, \
