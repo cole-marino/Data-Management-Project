@@ -105,6 +105,9 @@ def update(username : str):
             new_email = input()
             out = "UPDATE users SET email='" + new_email + "' WHERE username='" + username + "';"
             return out
+        case _:
+            print("Invalid entry. Try again.\n")
+            return update(username)
 
     return None
 
@@ -128,6 +131,9 @@ def settings(username : str):
             return delete(username)
         case "exit":
             return None
+        case _:
+            print("Invalid entry. Try again.\n")
+            return settings(username)
         
 
 def followUser(username: str):
