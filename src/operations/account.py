@@ -116,13 +116,21 @@ def bookSearch_parse():
     prompts the user for a book search and parses through to pass arguments to bookSearch_cmd
     :return: output of the command
     """
-    cmd_input = input("What book are you looking for? (use N/A to fill out any unknown fields)\n"
+    cmd_input = input("What book are you looking for? (If only title is known, leave other field empty. \n\tOtherwise, enter 'N/A' for specific unknown fields.)\n"
                       "Usage: [book title], [<, > or =][release date (MM/DD/YYYY)], [author], [publisher], [genre]\n")
-    (name, r_date, author, publisher, genre) = cmd_input.strip().split(", ")
+    (name, r_date, author, publisher, genre) = ["N/A", "N/A", "N/A", "N/A", "N/A"]
+    cmd_input = cmd_input.strip().split(", ")
+    name = cmd_input[0]
+    if(len(cmd_input) > 1):
+        r_date = cmd_input[1]
+        author = cmd_input[2]
+        publisher = cmd_input[3]
+        genre = cmd_input[4]
+
     output = bookSearch_cmd(name, r_date, author, publisher, genre)
     books = cp.execute_sql(output)
     for i in range(0, len(books)):
-        print(str(i) +") "+books[i][0] + ", Author: "+ books[i][3]+ ", Publisher: "+ books[i][4] + ", Length: "+ str(books[i][1]) + " pages, Rating: " + str(books[i][2]) + "stars")
+        print(str(i+1) +") "+books[i][0] + "\n Author: "+ books[i][3]+ "\n Publisher: "+ books[i][4] + "\n Length: "+ str(books[i][1]) + " pages\n Rating: " + str(books[i][2]) + "stars\n")
     return output
 
 def bookSearch_cmd(name, r_date, author, publisher, genre):
