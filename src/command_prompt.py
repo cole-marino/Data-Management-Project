@@ -121,7 +121,7 @@ def main():
     # read from stdin
     while(True):
 
-        print("\nMain Menu, choose action with corresponding number \n1) Account Settings\n2) Follow user\n3) Unfollow user\n4) Search books\n5)Get your book lists\n6)Rate a book\nexit)")
+        print("\nMain Menu, choose action with corresponding number \n1) Account Settings\n2) Follow user\n3) Unfollow user\n4) Search books\n5) Get your book lists\n6) Rate a book\n(exit)")
         exe = input()
         exe.lower()
 

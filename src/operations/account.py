@@ -4,8 +4,8 @@ Handles account-related data operations
 @Author Ben McManus
 '''
 
-import src.type.user as user
-import src.command_prompt as cp
+import type.user as user
+import command_prompt as cp
 
 
 def check_if_exists(username : str):
