@@ -128,6 +128,8 @@ def main():
                 command = user.settings(username) 
             case "2":
                 command = user.follow_user(username)
+                if(command == -1):
+                    continue
             case "3":
                 command = user.unfollow_user(username)
             case "4":

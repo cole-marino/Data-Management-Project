@@ -151,6 +151,7 @@ def follow_user(username: str):
         return "INSERT INTO followings(followerusername, followingusername) VALUES('"+username+"', '"+follower[0][0]+"')"
     else:
         print("User does not exit")
+        return -1
         
 def unfollow_user(username:str):
     '''
