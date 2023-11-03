@@ -9,7 +9,6 @@ import sys
 import psycopg2 as psy
 from sshtunnel import SSHTunnelForwarder
 
-import command_handler as ch
 import operations.account as acct
 import operations.book as bk
 import type.user as user
