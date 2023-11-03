@@ -126,11 +126,12 @@ def main():
               \n3) Unfollow user\
               \n4) Search books\
               \n5) Rate a book\
-              \n\n6) View your book lists\
+              \n6) View your book lists\
               \n7) Create a book list\
               \n8) Delete a book list\
-              \n9) Add a book to your book list\
-              \n9) Record a reading session\n(exit)")
+              \n9) Edit a book list\
+              \n10) Add a book to your book list\
+              \n11) Record a reading session\n(exit)")
         exe = input()
         exe.lower()
 
@@ -152,8 +153,12 @@ def main():
             case "7":
                 command = user_acct.create_user_list(username)
             case "8":
-                command = user_acct.add_to_list(username)
+                command = user_acct.delete_user_list(username)
             case "9":
+                command = user_acct.edit_user_list(username)
+            case "10":
+                command = user_acct.add_to_list(username)
+            case "11":
                 command = bk.book_Read_Parse(username)
             case "exit":
                 sys.exit()

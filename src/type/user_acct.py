@@ -3,6 +3,7 @@
         Essentially everything regarding the user except for get, insert, update, and delete.
 
     @Author: Cole Marino (cvm4043)
+    @Author: Hunter Boggan(hab1466)
 '''
 
 import functools
@@ -17,6 +18,7 @@ def view_user_list(username, list_name):
     @param list_name: The name of the list being printed.
     @return none
     '''
+    
     command = "SELECT b.title AS bookname,\
        CONCAT(p.fname, ' ', p.lname) AS author,\
        br.startdate,\
@@ -46,6 +48,7 @@ def print_all_lists(username : str):
     @param username: The username for the current user
     @return: 2D array of all lists and their data
     '''
+    
     command = "SELECT bl.username AS listowner,\
             bl.listname,\
             COUNT(bl.bid) AS numberofbooks, \
@@ -60,11 +63,33 @@ def print_all_lists(username : str):
     #options to view lists otherwise       
     result = cp.execute_sql(command)
     
-    print("\n") # spacing
     for i in range(0, len(result)):
-        print(str(i+1) +") '"+ result[0][1] + "' || Number of Books: " + str(result[0][2]) + " || Total Pages: " + str(result[0][2]))
+        print(str(i+1) +") '"+ result[i][1] + "' || Number of Books: " + str(result[i][2]) + " || Total Pages: " + str(result[i][3]))
 
     return result
+
+
+def edit_user_list(username):
+    prompt = input("Please provide the name of the book list you would like to change and its new name\n"
+                "If you would like to review your list(s) or their name(s), please use one of the previously defined actions\n"
+                "Usage: [list name], [new list name]\n")
+    
+    cmd_input = prompt.strip().split(", ")
+    
+    cmd = "UPDATE bookslist SET listname='"+ cmd_input[1] + "'WHERE username ='"+username+"' AND listname='"+ cmd_input[0] +"';"
+    
+    return cmd
+    
+    
+def delete_user_list(username):
+    prompt = input("Please provide the name of the book list you would like to delete\n"
+                   "If you would like to review your list(s) or their name(s), please use one of the previously defined actions\n"
+                   "Usage: [list name]\n")
+    
+    cmd = "DELETE FROM bookslist WHERE username ='"+username+"' AND listname='"+ prompt +"';"
+    
+    return cmd
+     
 
 def get_user_lists(username):
     '''
@@ -72,16 +97,22 @@ def get_user_lists(username):
     @param username: Users username.
     @return: None
     '''
+    
+    print("\nYour Collections:")
     result = print_all_lists(username)
         
-    list_num = int(input("\nEnter list number to view list, hit enter to return to menu.\n"))
-    print() # creates spacing
-    if isinstance(list_num, int):
-        view_user_list(username, result[list_num][1])
+    # Showing all books within a list isn't required in this phase and it doesn't work correctly anyways
+    # so I decided to comment it out - Hunter
     
-    # creates spacing
-    print()
-
+    # list_num = input("\nEnter list number to view list, type 'menu' to return to menu.\n")
+    # if (list_num != 'menu'):
+    #     list_num = int(list_num)
+    #     print() # creates spacing
+    #     if isinstance(list_num, int):
+    #         view_user_list(username, result[list_num-1][1])
+    
+    print() #spacing
+    
     return None
 
 
@@ -109,58 +140,58 @@ def create_user_list(username: str):
     
     print("Enter your first book into the list!")
 
-    # Prints all books in DB
-    books = cp.execute_sql("SELECT * FROM book;")
-    for i in range(0, len(books)):
-        author = cp.execute_sql("SELECT cid FROM authors WHERE bid="+str(books[i][0]) + ";")
+    # # Prints all books in DB
+    # books = cp.execute_sql("SELECT * FROM book;")
+    # for i in range(0, len(books)):
+    #     author = cp.execute_sql("SELECT cid FROM authors WHERE bid="+str(books[i][0]) + ";")
 
-        ## Gets the authors names
-        atmp=""
-        if(author == -1 or author == []):
-            author = "N/A"
-        else:
-            # Converts from a list containing a tuple to a string. This sucked.
-            for i in range(0, len(author)):
-                author[i] = str(author[i])
-                author[i] = author[i].replace(',', '')
-                author[i] = author[i].replace('(', '')
-                author[i] = author[i].replace(')', '')
-                a = cp.execute_sql("SELECT fname, lname FROM person WHERE cid="+author[i]+";")
-                a = str(a[0][0] + " " + a[0][1])
-                author[i] = a
+    #     ## Gets the authors names
+    #     atmp=""
+    #     if(author == -1 or author == []):
+    #         author = "N/A"
+    #     else:
+    #         # Converts from a list containing a tuple to a string. This sucked.
+    #         for i in range(0, len(author)):
+    #             author[i] = str(author[i])
+    #             author[i] = author[i].replace(',', '')
+    #             author[i] = author[i].replace('(', '')
+    #             author[i] = author[i].replace(')', '')
+    #             a = cp.execute_sql("SELECT fname, lname FROM person WHERE cid="+author[i]+";")
+    #             a = str(a[0][0] + " " + a[0][1])
+    #             author[i] = a
             
-            for i in range(0, len(author)):
-                atmp+=author[i]
-                if(i+1 != len(author)):
-                    atmp += ", "
-            author=atmp
+    #         for i in range(0, len(author)):
+    #             atmp+=author[i]
+    #             if(i+1 != len(author)):
+    #                 atmp += ", "
+    #         author=atmp
 
-        publisher = cp.execute_sql("SELECT name from publisher WHERE pid=" + str(books[i][4]) + ";")
-        publisher = publisher[0]
-        publisher = publisher[0]
-        rating = (cp.execute_sql("SELECT rating FROM bookratings WHERE bid=" + str(books[i][0])+";"))
+    #     publisher = cp.execute_sql("SELECT name from publisher WHERE pid=" + str(books[i][4]) + ";")
+    #     publisher = publisher[0]
+    #     publisher = publisher[0]
+    #     rating = (cp.execute_sql("SELECT rating FROM bookratings WHERE bid=" + str(books[i][0])+";"))
 
-        # Calculates average rating
-        if(rating == -1 or rating == []):
-            rating = "N/A"
-        else:
-            rating_avg = 0
-            for i in range(0, len(rating)):
-                rating[i] = str(rating[i])
-                rating[i] = rating[i].replace(',', '')
-                rating[i] = rating[i].replace('(', '')
-                rating[i] = rating[i].replace(')', '')
-                rating_avg += float(rating[i])
-            rating_avg = rating_avg/len(rating)
+    #     # Calculates average rating
+    #     if(rating == -1 or rating == []):
+    #         rating = "N/A"
+    #     else:
+    #         rating_avg = 0
+    #         for i in range(0, len(rating)):
+    #             rating[i] = str(rating[i])
+    #             rating[i] = rating[i].replace(',', '')
+    #             rating[i] = rating[i].replace('(', '')
+    #             rating[i] = rating[i].replace(')', '')
+    #             rating_avg += float(rating[i])
+    #         rating_avg = rating_avg/len(rating)
 
-        # Prints book shit
-        print(str(i+1) +") "+books[i][1] + "\n Author: "+ str(author)+ "\n Publisher: "+ str(publisher) + "\nLength: "+ str(books[i][3]) + " pages\n Rating: " + str(rating_avg) + " stars\n")
+    #     # Prints book shit
+    #     print(str(i+1) +") "+books[i][1] + "\n Author: "+ str(author)+ "\n Publisher: "+ str(publisher) + "\nLength: "+ str(books[i][3]) + " pages\n Rating: " + str(rating_avg) + " stars\n")
     
     ## Gets first book user wants to add
     while(True):
         book_name = input("Type a book name from the above list of books:\n")
         bid=cp.execute_sql("SELECT bid FROM book WHERE title='" + book_name+"';")
-        if(books == [] or books == -1):
+        if(bid == [] or bid == -1):
             print("No books with this title exists! Please try another book.")
         else:
             break
@@ -174,7 +205,7 @@ def create_user_list(username: str):
 
 def add_to_list(username : str):
     print("Your book lists are:")
-    lists = view_user_list(username)
+    lists = get_user_lists(username)
 
     if(len(lists) == 0):
         req = input("You do not have any lists. Would you like to create one? (y/n)")
