@@ -6,6 +6,7 @@ This handles book related functions such as grabbing book lists and such.
 '''
 import type.user as user
 import command_prompt as cp
+import pandas as pd
 
 from datetime import datetime
 
@@ -15,6 +16,8 @@ def book_Search_parse():
     prompts the user for a book search and parses through to pass arguments to bookSearch_cmd
     :return: output of the command
     """
+    SORT_TYPES = ["b.title", "Publisher", "genres", "b.releasedate"]
+    SORT_KINDS = ["ASC", "DESC"]
     cmd_input = input("What book are you looking for? (If only title is known, leave other field empty. \n\tOtherwise, enter 'N/A' for specific unknown fields.)\n"
                       "Usage: [book title], [<, > or =][release date (MM/DD/YYYY)], [author], [publisher], [genre]\n")
     (name, r_date, author, publisher, genre) = ["N/A", "N/A", "N/A", "N/A", "N/A"]
@@ -27,11 +30,40 @@ def book_Search_parse():
         genre = cmd_input[4]
 
     output = book_Search_cmd(name, r_date, author, publisher, genre)
-    books = cp.execute_sql(output)
-    for i in range(0, len(books)):
-        print(str(i+1) +") "+books[i][0] + "\n Author: "+ books[i][3]+ "\n Publisher: "+ books[i][4] + "\n Length: "+ str(books[i][1]) + " pages\n Rating: " + str(books[i][2]) + "stars\n")
-    return output
 
+    books = cp.execute_sql(output)
+    books_df = pd.DataFrame(books,
+                            columns=["Title", "Length (pages)", "Average Rating", "Authors", "Publisher", "Genres"])
+    print(books_df.to_string())
+
+    sort_cmd = output[0:-41]  # -41 is where the sort by commmand is
+
+    exit_prompt = False
+    while (exit_prompt == False):
+
+        # taking user input
+        sort_num = input("sort by: 1)title 2)publisher 3)genre 4)release date\n")
+
+        sort_att = SORT_TYPES[int(sort_num) - 1]
+        sort_t_num = input("sort by: 1)ascending 2)descending\n")
+        sort_t = SORT_KINDS[int(sort_t_num) - 1]
+
+        # get the book search command with everything but the sort
+
+
+        # create the sort line
+        sort_sec = "ORDER BY " + sort_att + " " + sort_t + ";"
+
+        books = cp.execute_sql(sort_cmd + sort_sec)
+        books_df = pd.DataFrame(books,
+                                columns=["Title", "Length (pages)", "Average Rating", "Authors", "Publisher", "Genres"])
+        print(books_df.to_string())
+        exit_prompt = ("yes" == input("return to main menu?(yes/no)\n"))
+
+    # deprecated
+    # for i in range(0, len(books)):
+    #     print(str(i+1) +") "+books[i][0] + "\n Author: "+ books[i][3]+ "\n Publisher: "+ books[i][4] + "\n Length: "+ str(books[i][1]) + " pages\n Rating: " + str(books[i][2]) + "stars\n")
+    # return output
 
 def book_Search_cmd(name, r_date, author, publisher, genre):
     """
