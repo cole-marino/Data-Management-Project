@@ -45,8 +45,6 @@ def view_Lists(username):
     #TODO need same thing as newList()
     return 0
 
-
-    
 def follow_User(username: str):
     '''
     Allows user to follow another user
