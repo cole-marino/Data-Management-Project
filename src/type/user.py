@@ -128,4 +128,36 @@ def settings(username : str):
         case "exit":
             return None
         
-    
+
+def followUser(username: str):
+    '''
+    Allows user to follow another user
+    @param username: The username wanted to be followed!
+    @return: SQL statement or None
+    '''
+    print("Enter the email of the user you wish to follow: ")
+    email = input()
+    cmd = "SELECT username FROM users WHERE email = '"+email+"'"
+    follower = cp.execute_sql(cmd)
+    if(follower != []):
+        return "INSERT INTO followings(followerusername, followingusername) VALUES('"+username+"', '"+follower[0][0]+"')"
+    else:
+        print("User does not exit")
+        
+def unfollowUser(username:str):
+    '''
+    Allows a user to unfollow another user that they are following
+    @param username: the username being unfollowed
+    @return: SQL statement or None
+    '''
+    cmd = "SELECT followingusername FROM followings WHERE followerusername = '"+username+"'"
+    following = cp.execute_sql(cmd)
+    if(following != [] or following != -1):
+        print("Enter number of person to unfollow")
+        for i in range(0, len(following)):
+            print(str(i)+") "+following[i][0])
+        choice = int(input())
+        return "DELETE FROM followings WHERE followerusername = '"+username+"' AND followingusername = '"+following[choice][0]+"'"
+    else:
+        print("You follow no users")
+        return

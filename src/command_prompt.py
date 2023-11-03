@@ -127,9 +127,9 @@ def main():
             case "1": 
                 command = user.settings(username) 
             case "2":
-                command = acct.followUser(username)
+                command = user.followUser(username)
             case "3":
-                command = acct.unfollowUser(username)
+                command = user.unfollowUser(username)
             case "4":
                 command = acct.bookSearch_parse()
             case "5":
