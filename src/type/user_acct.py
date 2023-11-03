@@ -140,6 +140,10 @@ def create_user_list(username: str):
     
     print("Enter your first book into the list!")
 
+
+    # We don't need to print this at the moment it takes too long,
+    # just hope the user knows the name of the book and that we have it
+
     # # Prints all books in DB
     # books = cp.execute_sql("SELECT * FROM book;")
     # for i in range(0, len(books)):
@@ -189,10 +193,10 @@ def create_user_list(username: str):
     
     ## Gets first book user wants to add
     while(True):
-        book_name = input("Type a book name from the above list of books:\n")
+        book_name = input("Type the name of a book:\n")
         bid=cp.execute_sql("SELECT bid FROM book WHERE title='" + book_name+"';")
         if(bid == [] or bid == -1):
-            print("No books with this title exists! Please try another book.")
+            print("No books with this title exists in our system! Please try another book.")
         else:
             break
     bid=bid[0]
