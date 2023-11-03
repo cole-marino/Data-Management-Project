@@ -12,6 +12,7 @@ from sshtunnel import SSHTunnelForwarder
 import operations.account as acct
 import operations.book as bk
 import type.user as user
+import type.user_acct as user_acct
 
 # This is not contained in github because it holds personal account info.
 # Contains a getUsername() function and getPassword() function which returns the coders username and password
@@ -119,7 +120,15 @@ def main():
     # read from stdin
     while(True):
 
-        print("\nMain Menu, choose action with corresponding number \n1) Account Settings\n2) Follow user\n3) Unfollow user\n4) Search books\n5) Get your book lists\n6) Rate a book\n(exit)")
+        print("\nMain Menu, choose action with corresponding number \n1) Account Settings\
+              \n2) Follow user\
+              \n3) Unfollow user\
+              \n4) Search books\
+              \n5) Rate a book\
+              \n\n6) View your book lists\
+              \n7) Create a book list\
+              \n8) Delete a book list\
+              \n(exit)")
         exe = input()
         exe.lower()
 
@@ -127,17 +136,19 @@ def main():
             case "1": 
                 command = user.settings(username) 
             case "2":
-                command = user.follow_user(username)
+                command = user_acct.follow_user(username)
                 if(command == -1):
                     continue
             case "3":
-                command = user.unfollow_user(username)
+                command = user_acct.unfollow_user(username)
             case "4":
                 command = bk.book_Search_parse()
             case "5":
-                command = bk.get_user_lists(username)
+                command = bk.book_rate_parse(username)
             case "6":
-                command = bk.book_Rate_parse(username)
+                command = user_acct.get_user_lists(username)
+            case "7":
+                command =""
             case "exit":
                 sys.exit()
             case _:
