@@ -140,6 +140,9 @@ def main():
                 command = bk.book_Rate_parse(username)
             case "exit":
                 sys.exit()
+            case _:
+                print("Invalid entry, please try again.")
+                continue
             
             
 
