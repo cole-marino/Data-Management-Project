@@ -6,6 +6,8 @@ Handles account-related data operations
 
 import type.user as user
 import command_prompt as cp
+from datetime import datetime
+from datetime import date
 
 
 def check_if_exists(username : str):
@@ -36,6 +38,23 @@ def signup():
         Directs to insert function for user
     '''
     return user.insert()
+
+def record_access(username:str):
+    '''
+    Records access times for a user
+        Is to be executed upon each user sign in. Gets the username, current date, and current time
+    @param username: The username of the person signing in
+    @return: SQL command to be executed
+    '''
+    today = str(date.today())
+    today.replace('/', '-')
+    
+    time = str(datetime.now())
+    
+    cmd = "INSERT INTO accesses(username, accessdate, accesstime) VALUES('"+username+"', '"+today+"', '"+time+"')"
+    return cmd
+    
+
 
 def new_List(username):
     #TODO need a table to store user book lists

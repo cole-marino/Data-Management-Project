@@ -103,6 +103,7 @@ def main():
             if(res == []):
                 print("\nERROR with entry, please try again and make sure formatting is valid.")
                 continue
+            execute_sql(acct.record_access(username))
             break
         elif(entry == 'signup'):
             cmd = acct.signup()
