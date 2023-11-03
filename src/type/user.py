@@ -136,7 +136,7 @@ def settings(username : str):
             return settings(username)
         
 
-def followUser(username: str):
+def follow_user(username: str):
     '''
     Allows user to follow another user
     @param username: The username wanted to be followed!
@@ -146,12 +146,12 @@ def followUser(username: str):
     email = input()
     cmd = "SELECT username FROM users WHERE email = '"+email+"'"
     follower = cp.execute_sql(cmd)
-    if(follower != []):
+    if(follower != -1):
         return "INSERT INTO followings(followerusername, followingusername) VALUES('"+username+"', '"+follower[0][0]+"')"
     else:
         print("User does not exit")
         
-def unfollowUser(username:str):
+def unfollow_user(username:str):
     '''
     Allows a user to unfollow another user that they are following
     @param username: the username being unfollowed
