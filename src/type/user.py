@@ -136,7 +136,11 @@ def settings(username : str):
             return settings(username)
         
 
+<<<<<<< HEAD
 def follow_user(username: str):
+=======
+def follow_User(username: str):
+>>>>>>> e3bb5592fbeb1232858819b2004c8418c42dbcf3
     '''
     Allows user to follow another user
     @param username: The username wanted to be followed!
@@ -151,7 +155,11 @@ def follow_user(username: str):
     else:
         print("User does not exit")
         
+<<<<<<< HEAD
 def unfollow_user(username:str):
+=======
+def unfollow_User(username:str):
+>>>>>>> e3bb5592fbeb1232858819b2004c8418c42dbcf3
     '''
     Allows a user to unfollow another user that they are following
     @param username: the username being unfollowed
