@@ -46,7 +46,7 @@ def record_access(username:str):
     @param username: The username of the person signing in
     @return: SQL command to be executed
     '''
-    today = str(datetime.now)
+    today = str(datetime.now())
     today.replace('/', '-')
     
     
