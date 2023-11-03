@@ -4,8 +4,8 @@ Handles GET, INSERT, DELETE, UPDATE functions for users type
 @Author: Cole Marino
 '''
 
+import sys
 from datetime import date
-from datetime import datetime
 
 import operations.account as acct
 import command_prompt as cp
@@ -128,7 +128,8 @@ def settings(username : str):
         case "1":
             return update(username)
         case "2":
-            return delete(username)
+            delete(username)
+            sys.exit()
         case "exit":
             return None
         case _:
