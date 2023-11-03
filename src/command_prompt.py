@@ -135,7 +135,7 @@ def main():
             case "4":
                 command = bk.book_Search_parse()
             case "5":
-                command = bk.get_User_Lists(username)
+                command = bk.get_user_lists(username)
             case "6":
                 command = bk.book_Rate_parse(username)
             case "exit":

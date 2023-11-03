@@ -7,35 +7,45 @@ This handles book related functions such as grabbing book lists and such.
 import type.user as user
 import command_prompt as cp
 
-def view_User_List(username, listName):
+from datetime import datetime
+
+def view_user_list(username, list_name):
     '''
-    
+    Prints all the books that are in a users list.
+    @param username: The users username
+    @param list_name: The name of the list being printed.
+    @return none
     '''
-    command = "SELECT b.title AS book_name, \
-       CONCAT(p.f_name, ' ', p.l_name) AS author, \
-       br.start_date, \
-       br.end_date, \
-       br.pages_read \
-    FROM bookreads br \
-    JOIN book b ON br.bid = b.bid \
-    JOIN authors a ON b.bid = a.bid \
-    JOIN person p ON a.cid = p.cid \
-    JOIN bookslist bl ON br.bid = bl.bid \
-    JOIN users u ON bl.username = u.username \
-    WHERE u.username = 'your_username' \
-    AND bl.list_name = 'your_list_name';"
+    command = "SELECT b.title AS bookname,\
+       CONCAT(p.fname, ' ', p.lname) AS author,\
+       br.startdate,\
+       br.enddate,\
+       br.pagesread\
+    FROM bookreads br\
+    JOIN book b ON br.bid = b.bid\
+    JOIN authors a ON b.bid = a.bid\
+    JOIN person p ON a.cid = p.cid\
+    JOIN bookslist bl ON br.bid = bl.bid\
+    JOIN users u ON bl.username = u.username\
+    WHERE u.username = '"+username+"'\
+    AND bl.listname = '"+list_name+"';"
     
     result = cp.execute_sql(command)
-    #print(result)
+
+    # Prints books that are in this list
+    for i in range(len(result)):
+        print("Book " + str(i+1) + ") " + result[i][0]) # Prints book title
+        print("\tAuthor(s): " + result[i][1])
+        print("\tRelease date: "+ result[i][2].strftime("%m/%d/%y"))
+        print("\tPages: " + str(result[i][4]))
 
 
-def get_User_Lists(username, listOnly):
+
+def get_user_lists(username):
     '''
     Gets all the lists which a user has.
     @param username: Users username.
-    @param listOnly: boolean to display user lists or not
-    @return (listsonly true): string of command to select lists
-    @return (listsonly false): None
+    @return: None
     '''
     command = "SELECT bl.username AS list_owner,\
             bl.listname,\
@@ -47,20 +57,22 @@ def get_User_Lists(username, listOnly):
             GROUP BY bl.username, bl.listname  \
             ORDER BY listname ASC, list_owner;" 
             
-    #If List only true, returns command for other fucntion to access lists
-    if listOnly:
-        return result
     
     #options to view lists otherwise       
     result = cp.execute_sql(command)
     
+    print("\n") # spacing
     for i in range(0, len(result)):
         print(str(i) +") "+ result[0][1] + ", Number of Books: " + str(result[0][2]) + ", Total Pages: " + str(result[0][2]))
         
-    listNum = input("Enter list number to view list, hit enter to return to menu")
-    if isinstance(list, int):
-        view_User_List(username, result[listNum][1])
-        
+    list_num = int(input("\nEnter list number to view list, hit enter to return to menu.\n"))
+    print() # creates spacing
+    if isinstance(list_num, int):
+        view_user_list(username, result[list_num][1])
+    
+    # creates spacing
+    print()
+
     return None
 
 
