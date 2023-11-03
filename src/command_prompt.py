@@ -135,6 +135,8 @@ def main():
         exe = input()
         exe.lower()
 
+        command = None
+
         match exe:
             case "1": 
                 command = user.settings(username) 
@@ -149,7 +151,7 @@ def main():
             case "5":
                 command = bk.book_rate_parse(username)
             case "6":
-                command = user_acct.get_user_lists(username)
+                ignore = user_acct.get_user_lists(username)
             case "7":
                 command = user_acct.create_user_list(username)
             case "8":

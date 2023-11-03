@@ -113,7 +113,7 @@ def get_user_lists(username):
     
     print() #spacing
     
-    return None
+    return result
 
 
 def create_user_list(username: str):
@@ -208,7 +208,7 @@ def create_user_list(username: str):
 
 
 def add_to_list(username : str):
-    print("Your book lists are:")
+
     lists = get_user_lists(username)
 
     if(len(lists) == 0):
@@ -222,28 +222,36 @@ def add_to_list(username : str):
             print("This is an invalid response. Exiting...")
             return None
 
-    listnum = input("What list are you adding a book to? (Enter list number from above)\n")
+    list_num = input("What list are you adding a book to? (Enter list number from above)\n")
+
+    list_num = int(list_num)
 
     ## Checking that book exists
-    name=""
+    list_name = lists[list_num-1][1]
     out=""
     while(True):
-        name = input("Enter the title of the book being added to list '" + lists[listnum][0] + "'")
+        title = input("\nEnter the title of the book being added to list '" + list_name + "'\n")
 
-        out = cp.execute_sql(book.book_Search_cmd(name, "N/A", "N/A", "N/A", "N/A"))
+        out = cp.execute_sql(book.book_search_cmd(title, "N/A", "N/A", "N/A", "N/A"))
         if(out == -1 or out == []):
             print("This book does not exist.")
             continue
         else:
             break
 
-    cmd = "SELECT * FROM bookslist WHERE bid='" + out[0] + "' AND listname='" + name + "'"
-    out = cp.execute_sql(cmd)
-    if(out != -1 or out != []):
-            print("This book is already in the list.")
 
-    cmd = "INSERT INTO bookslist(bid, username, listname) VALUES (" + out[0] + ", '" + username + "' , '" + name + "')"
-    return cmd 
+    cmd = "SELECT bid FROM book WHERE title='"+ out[0][0] +"'"
+    res = cp.execute_sql(cmd)
+    bid_str = str(res[0][0])
+
+    cmd = "SELECT * FROM bookslist WHERE bid='" + bid_str + "' AND username='"+ username +"' AND listname='" + list_name + "'"
+    out = cp.execute_sql(cmd)
+    if(out == -1 or out == []):
+        cmd = "INSERT INTO bookslist(bid, username, listname) VALUES (" + bid_str + ", '" + username + "' , '" + list_name + "')"
+        return cmd
+    
+    print("This book is already in the list.")
+    return None
 
 
 def follow_user(username: str):

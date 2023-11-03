@@ -118,9 +118,9 @@ def book_search_cmd(name, r_date, author, publisher, genre):
     cmd_book = "SELECT b.title, b.length, ROUND(CAST(b.avgrating as numeric), 2), string_agg(DISTINCT(CONCAT(pe.fname,' ', pe.lname)), ', ') AS authors, pu.name AS Publisher, string_agg(DISTINCT(gb.gname), ', ') as genres \n" \
                "FROM (SELECT b1.title, b1.length, b1.bid, b1.pid, b1.releasedate, AVG(br.rating) as avgrating \n" \
                "FROM book b1 \n" \
-               "INNER JOIN bookratings br ON b1.bid = br.bid \n" \
+               "LEFT JOIN bookratings br ON b1.bid = br.bid \n" \
                "GROUP BY b1.bid) AS b \n" \
-               "INNER JOIN bookratings AS br ON b.bid = br.bid \n" \
+               "LEFT JOIN bookratings AS br ON b.bid = br.bid \n" \
                "INNER JOIN authors AS a ON b.bid = a.bid \n" \
                "INNER JOIN genrebook AS gb ON b.bid = gb.bid \n" \
                "INNER JOIN publisher AS pu ON b.pid = pu.pid \n" \
