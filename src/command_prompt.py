@@ -42,7 +42,7 @@ def execute_sql(sql):
                     #local_bind_address=('127.0.0.1', 22)
                     ) as server:
             server.start()
-            print("SSH tunnel connected!")
+            #print("SSH tunnel connected!")
 
             # params for connect
             params = {
@@ -57,7 +57,7 @@ def execute_sql(sql):
             conn = psy.connect(**params)
             curs = conn.cursor()
 
-            print("DataBase connected!")
+            #print("DataBase connected!")
 
             # executes command
             try:
@@ -73,7 +73,6 @@ def execute_sql(sql):
                     return -1
             except:
                 print("ERROR: SQL Command invalid.")
-                print("bruh")
                 return -1
             
             # checks if it worked
@@ -85,7 +84,7 @@ def execute_sql(sql):
             # commits SQL statement
             conn.commit()
             conn.close()
-            print("SQL Statement was successfully executed!")
+            #print("SQL Statement was successfully executed!")
             return result
     except Exception as e: print(e)
 
