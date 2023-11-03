@@ -128,15 +128,15 @@ def main():
             case "1": 
                 command = user.settings(username) 
             case "2":
-                command = acct.followUser(username)
+                command = acct.follow_User(username)
             case "3":
-                command = acct.unfollowUser(username)
+                command = acct.unfollow_User(username)
             case "4":
-                command = acct.bookSearch_parse()
+                command = bk.book_Search_parse()
             case "5":
-                command = bk.getUserLists(username)
+                command = bk.get_User_Lists(username)
             case "6":
-                command = acct.bookRate_parse(username)
+                command = bk.book_Rate_parse(username)
             case "exit":
                 sys.exit()
             
