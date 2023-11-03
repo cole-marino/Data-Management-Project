@@ -104,6 +104,7 @@ def main():
             if(res == []):
                 print("\nERROR with entry, please try again and make sure formatting is valid.")
                 continue
+            execute_sql(acct.record_access(username))
             break
         elif(entry == 'signup'):
             cmd = acct.signup()
@@ -129,7 +130,7 @@ def main():
               \n7) Create a book list\
               \n8) Delete a book list\
               \n9) Add a book to your book list\
-              \n(exit)")
+              \n9) Record a reading session\n(exit)")
         exe = input()
         exe.lower()
 
@@ -152,6 +153,8 @@ def main():
                 command = user_acct.create_user_list(username)
             case "8":
                 command=user_acct.add_to_list(username)
+            case "9":
+                command = bk.book_Read_Parse(username)
             case "exit":
                 sys.exit()
             case _:
