@@ -221,11 +221,10 @@ def book_Read(username, book, starttime, endtime, startpage, endpage):
     
     start = datetime.strptime(starttime, '%b %d %Y %I:%M%p')
     start_str = str(start)
-    print(start_str)
+
     end = datetime.strptime(endtime, '%b %d %Y %I:%M%p')
     end_str = str(end)
-    print(end_str)
     
-    read_cmd = "INSERT INTO bookreads(bid, username, startdate, enddate, pagesread) VALUES ('"+res_str+"', '"+username+"'"+start_str+"', '"+end_str+"', '"+pages_str+"')"
+    read_cmd = "INSERT INTO bookreads(bid, username, startdate, enddate, pagesread) VALUES ('"+res_str+"', '"+username+"', '"+start_str+"', '"+end_str+"', '"+pages_str+"')"
     
     return read_cmd
