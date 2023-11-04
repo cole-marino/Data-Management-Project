@@ -30,7 +30,7 @@ def insert():
 
     # checks if username exists
     ret = (acct.check_if_exists(username))
-    if(ret != [] or ret != -1):
+    if(ret != [] or ret == -1):
         print("\nUsername already exists, please try again.")
         return insert()
 
