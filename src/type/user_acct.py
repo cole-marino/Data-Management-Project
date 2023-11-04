@@ -83,7 +83,7 @@ def edit_user_list(username):
     
     
 def delete_user_list(username):
-    lists = get_user_lists
+    lists = get_user_lists(username)
     if (len(lists) == 0):
         print("You do not have any lists to delete.")
         return None
