@@ -9,6 +9,7 @@
 import functools
 import command_prompt as cp
 import operations.book as book
+import pandas as pd
 
 
 def view_user_list(username, list_name):
@@ -123,19 +124,19 @@ def create_user_list(username: str):
     @param username: The username for the current user
     @return: SQL command to create a new list
     '''
-    name = input("Enter the name for your new book list.\n")
+    list_name = input("Enter the name for your new book list.\n")
 
 
     ## checks that list with same name doesnt already exist
     while(True):
-        check_if_available = "SELECT * FROM bookslist WHERE username='" + username + "' AND listname='" + name + "';"
+        check_if_available = "SELECT * FROM bookslist WHERE username='" + username + "' AND listname='" + list_name + "';"
         check = cp.execute_sql(check_if_available)
         print(check)
         if(check == -1 or check == []):
             break
         else:
             print("You already have a list with this name. Please choose another.")
-            name=input()
+            list_name = input()
             
     
     print("Enter your first book into the list!")
@@ -194,17 +195,23 @@ def create_user_list(username: str):
     ## Gets first book user wants to add
     while(True):
         book_name = input("Type the name of a book:\n")
-        bid=cp.execute_sql("SELECT bid FROM book WHERE title='" + book_name+"';")
+        bid=cp.execute_sql("SELECT bid, title FROM book WHERE title LIKE \'%" + book_name + "%\'")
         if(bid == [] or bid == -1):
-            print("No books with this title exists in our system! Please try another book.")
+            print("\nNo books with this title exists in our system! Please give a more specific title or try another book.")
+        elif(len(bid) > 1):
+            bid_df = pd.DataFrame(bid, columns=["ID", "Title"])
+            print("\n" + bid_df.to_string())
+            book_num = input("\nType the number of the book you'd like to select \n(This is the first number shown, NOT the ID)\n")
+            book_num = int(book_num)
+            if(book_num < len(bid) and book_num >= 0):
+                break
         else:
             break
-    bid=bid[0]
-    bid = str(bid)
-    bid = bid.replace(',', '')
-    bid = bid.replace('(', '')
-    bid = bid.replace(')', '')
-    return "INSERT INTO bookslist(bid, username, listname) VALUES ("+bid + ", '"+username+"', '"+name+"');"
+    bid_str = str(bid[book_num][0])
+    # bid = bid.replace(',', '')
+    # bid = bid.replace('(', '')
+    # bid = bid.replace(')', '')
+    return "INSERT INTO bookslist(bid, username, listname) VALUES ("+bid_str+", '"+username+"', '"+list_name+"');"
 
 
 def add_to_list(username : str):
@@ -223,34 +230,78 @@ def add_to_list(username : str):
             return None
 
     list_num = input("What list are you adding a book to? (Enter list number from above)\n")
-
     list_num = int(list_num)
 
     ## Checking that book exists
     list_name = lists[list_num-1][1]
     out=""
     while(True):
-        title = input("\nEnter the title of the book being added to list '" + list_name + "'\n")
+        book_name = input("\nEnter the title of the book being added to list '" + list_name + "'\n")
 
-        out = cp.execute_sql(book.book_search_cmd(title, "N/A", "N/A", "N/A", "N/A"))
-        if(out == -1 or out == []):
-            print("This book does not exist.")
-            continue
+        bid=cp.execute_sql("SELECT bid, title FROM book WHERE title LIKE \'%" + book_name + "%\'")
+        if(bid == [] or bid == -1):
+            print("\nNo books with this title exists in our system! Please give a more specific title or try another book.")
+        elif(len(bid) > 1):
+            bid_df = pd.DataFrame(bid, columns=["ID", "Title"])
+            print("\n" + bid_df.to_string())
+            book_num = input("\nType the number of the book you'd like to select \n(This is the first number shown, NOT the ID)\n")
+            book_num = int(book_num)
+            if(book_num < len(bid) and book_num >= 0):
+                break
         else:
+            book_num = 0
             break
 
-
-    cmd = "SELECT bid FROM book WHERE title='"+ out[0][0] +"'"
-    res = cp.execute_sql(cmd)
-    bid_str = str(res[0][0])
+    bid_str = str(bid[book_num][0])
 
     cmd = "SELECT * FROM bookslist WHERE bid='" + bid_str + "' AND username='"+ username +"' AND listname='" + list_name + "'"
     out = cp.execute_sql(cmd)
-    if(out == -1 or out == []):
+    if(out == [] or out == -1):
         cmd = "INSERT INTO bookslist(bid, username, listname) VALUES (" + bid_str + ", '" + username + "' , '" + list_name + "')"
         return cmd
     
     print("This book is already in the list.")
+    return None
+
+
+def delete_from_list(username):
+    lists = get_user_lists(username)
+
+    if(len(lists) == 0):
+        req = input("You do not have any lists. Would you like to create one? (y/n)")
+        if(req == "y"):
+            return create_user_list(username)
+        elif(req == "n"):
+            print("Okay.")
+            return None
+        else:
+            print("This is an invalid response. Exiting...")
+            return None
+        
+    list_num = input("What list are you deleting a book from? (Enter list number from above)\n")
+    list_num = int(list_num)
+    list_name = lists[list_num-1][1]
+    
+    cmd = "SELECT b.bid, b.title \
+        FROM book AS b INNER JOIN bookslist AS bl ON b.bid = bl.bid \
+        WHERE bl.username='"+ username +"' AND bl.listname ='"+ list_name +"';"
+    
+    list_books = cp.execute_sql(cmd)
+    
+    print("\nThe books in this list are:")
+    list_books_df = pd.DataFrame(list_books, columns=["ID", "Title"])
+    print("\n" + list_books_df.to_string())
+    
+    book_num = input("\nType the number of the book you'd like to delete \n(This is the first number shown, NOT the ID)\n")
+    book_num = int(book_num)
+    
+    bid_str = str(list_books[book_num][0])
+    
+    cmd = "DELETE FROM bookslist WHERE bid='" + bid_str + "' AND username='"+ username +"' AND listname='" + list_name + "'"
+    out = cp.execute_sql(cmd)
+    if (out == -1):
+        print("Could not find book to delete from list\n")
+    
     return None
 
 
