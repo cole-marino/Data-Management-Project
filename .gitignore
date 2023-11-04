@@ -1,2 +1,3 @@
 /src/ACCTDETAILS.py
-/src/__pycache__
+src/operations/__pycache__/
+src/type/__pycache__/

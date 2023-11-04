@@ -46,7 +46,7 @@ def insert():
     print("\nEnter email")
     email = input()
 
-    print("\nEnter date of birth (usage: [year]-[month]-[day])\n(usage ex: 2001-09-11 [god bless our troops])")
+    print("\nEnter date of birth (usage: [year]-[month]-[day])\n(usage ex: 2001-09-14)")
     dob = input()
     
     # gets todays date
