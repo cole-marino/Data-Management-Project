@@ -83,6 +83,11 @@ def edit_user_list(username):
     
     
 def delete_user_list(username):
+    lists = get_user_lists
+    if (len(lists) == 0):
+        print("You do not have any lists to delete.")
+        return None
+    
     prompt = input("Please provide the name of the book list you would like to delete\n"
                    "If you would like to review your list(s) or their name(s), please use one of the previously defined actions\n"
                    "Usage: [list name]\n")
@@ -196,6 +201,7 @@ def create_user_list(username: str):
     while(True):
         book_name = input("Type the name of a book:\n")
         bid=cp.execute_sql("SELECT bid, title FROM book WHERE title LIKE \'%" + book_name + "%\'")
+        book_num = 0
         if(bid == [] or bid == -1):
             print("\nNo books with this title exists in our system! Please give a more specific title or try another book.")
         elif(len(bid) > 1):
