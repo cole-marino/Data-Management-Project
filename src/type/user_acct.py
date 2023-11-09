@@ -63,6 +63,8 @@ def print_all_lists(username : str):
     
     #options to view lists otherwise       
     result = cp.execute_sql(command)
+
+    print("You have (" + str(len(result))+ ") collections!")
     
     for i in range(0, len(result)):
         print(str(i+1) +") '"+ result[i][1] + "' || Number of Books: " + str(result[i][2]) + " || Total Pages: " + str(result[i][3]))
@@ -146,57 +148,6 @@ def create_user_list(username: str):
     
     print("Enter your first book into the list!")
 
-
-    # We don't need to print this at the moment it takes too long,
-    # just hope the user knows the name of the book and that we have it
-
-    # # Prints all books in DB
-    # books = cp.execute_sql("SELECT * FROM book;")
-    # for i in range(0, len(books)):
-    #     author = cp.execute_sql("SELECT cid FROM authors WHERE bid="+str(books[i][0]) + ";")
-
-    #     ## Gets the authors names
-    #     atmp=""
-    #     if(author == -1 or author == []):
-    #         author = "N/A"
-    #     else:
-    #         # Converts from a list containing a tuple to a string. This sucked.
-    #         for i in range(0, len(author)):
-    #             author[i] = str(author[i])
-    #             author[i] = author[i].replace(',', '')
-    #             author[i] = author[i].replace('(', '')
-    #             author[i] = author[i].replace(')', '')
-    #             a = cp.execute_sql("SELECT fname, lname FROM person WHERE cid="+author[i]+";")
-    #             a = str(a[0][0] + " " + a[0][1])
-    #             author[i] = a
-            
-    #         for i in range(0, len(author)):
-    #             atmp+=author[i]
-    #             if(i+1 != len(author)):
-    #                 atmp += ", "
-    #         author=atmp
-
-    #     publisher = cp.execute_sql("SELECT name from publisher WHERE pid=" + str(books[i][4]) + ";")
-    #     publisher = publisher[0]
-    #     publisher = publisher[0]
-    #     rating = (cp.execute_sql("SELECT rating FROM bookratings WHERE bid=" + str(books[i][0])+";"))
-
-    #     # Calculates average rating
-    #     if(rating == -1 or rating == []):
-    #         rating = "N/A"
-    #     else:
-    #         rating_avg = 0
-    #         for i in range(0, len(rating)):
-    #             rating[i] = str(rating[i])
-    #             rating[i] = rating[i].replace(',', '')
-    #             rating[i] = rating[i].replace('(', '')
-    #             rating[i] = rating[i].replace(')', '')
-    #             rating_avg += float(rating[i])
-    #         rating_avg = rating_avg/len(rating)
-
-    #     # Prints book shit
-    #     print(str(i+1) +") "+books[i][1] + "\n Author: "+ str(author)+ "\n Publisher: "+ str(publisher) + "\nLength: "+ str(books[i][3]) + " pages\n Rating: " + str(rating_avg) + " stars\n")
-    
     ## Gets first book user wants to add
     while(True):
         book_name = input("Type the name of a book:\n")
