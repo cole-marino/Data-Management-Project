@@ -124,15 +124,16 @@ def main():
         print("\nMain Menu, choose action with corresponding number \n1) Account Settings\
               \n2) Follow user\
               \n3) Unfollow user\
-              \n4) Search books\
-              \n5) Rate a book\
-              \n6) View your book lists\
-              \n7) Create a book list\
-              \n8) Delete a book list\
-              \n9) Edit a book list\
-              \n10) Add a book to a book list\
-              \n11) Delete a book from a book list\
-              \n12) Record a reading session\n(exit)")
+              \n4) View followings \
+              \n5) Search books\
+              \n6) Rate a book\
+              \n7) View your book lists\
+              \n8) Create a book list\
+              \n9) Delete a book list\
+              \n10) Edit a book list\
+              \n11) Add a book to a book list\
+              \n12) Delete a book from a book list\
+              \n13) Record a reading session\n(exit)")
         exe = input()
         exe.lower()
 
@@ -148,22 +149,24 @@ def main():
             case "3":
                 command = user_acct.unfollow_user(username)
             case "4":
-                command = bk.book_Search_parse()
+                ignore = user_acct.get_followings(username)
             case "5":
-                command = bk.book_rate_parse(username)
+                command = bk.book_Search_parse()
             case "6":
-                ignore = user_acct.get_user_lists(username)
+                command = bk.book_rate_parse(username)
             case "7":
-                command = user_acct.create_user_list(username)
+                ignore = user_acct.get_user_lists(username)
             case "8":
-                command = user_acct.delete_user_list(username)
+                command = user_acct.create_user_list(username)
             case "9":
-                command = user_acct.edit_user_list(username)
+                command = user_acct.delete_user_list(username)
             case "10":
-                command = user_acct.add_to_list(username)
+                command = user_acct.edit_user_list(username)
             case "11":
-                command = user_acct.delete_from_list(username)
+                command = user_acct.add_to_list(username)
             case "12":
+                command = user_acct.delete_from_list(username)
+            case "13":
                 command = bk.book_Read_Parse(username)
             case "exit":
                 sys.exit()

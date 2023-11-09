@@ -344,3 +344,30 @@ def unfollow_user(username:str):
     else:
         print("You follow no users")
         return
+    
+def get_followings(username : str):
+    print("\nPeople you are following:")
+    cmd = "SELECT followingusername FROM followings WHERE followerusername='" + username + "';"
+    follow = cp.execute_sql(cmd)
+    print(follow)
+
+    if(follow==-1):
+        return -1
+    
+    print("You are following (" + str(len(follow)) + ") users!")
+    for user in follow:
+        print(user[0])
+    print()
+
+    cmd = "SELECT followerusername FROM followings WHERE followingusername='" + username + "';"
+    following = cp.execute_sql(cmd)
+    if(following==-1):
+        return-1
+    print("You have (" + str(len(following)) + ") followers!")
+    for user in following:
+        print(user[0])
+    print()
+
+
+
+    return 1
