@@ -8,3 +8,14 @@ import command_prompt as cp
 import operations.book as book
 import pandas as pd
 
+def get_top_5_month():
+    
+    # Steps for getting top 5:
+    # 1. Find all books released in the past month
+    # 2. Find sum of each of those books in bookreads
+    # 3. Choose top 5 of the sum sorted in descending order
+    
+    command = ""
+    
+    result = cp.execute_sql(command)
+    return 0
