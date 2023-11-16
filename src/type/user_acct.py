@@ -3,7 +3,7 @@
         Essentially everything regarding the user except for get, insert, update, and delete.
 
     @Author: Cole Marino (cvm4043)
-    @Author: Hunter Boggan(hab1466)
+    @Author: Hunter Boggan (hab1466)
 '''
 import command_prompt as cp
 import operations.book as book
