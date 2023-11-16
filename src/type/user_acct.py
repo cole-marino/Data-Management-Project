@@ -5,8 +5,6 @@
     @Author: Cole Marino (cvm4043)
     @Author: Hunter Boggan(hab1466)
 '''
-
-import functools
 import command_prompt as cp
 import operations.book as book
 import pandas as pd
@@ -72,7 +70,13 @@ def print_all_lists(username : str):
     return result
 
 
-def edit_user_list(username):
+def edit_user_list(username : str):
+    '''
+    Edits a user list.
+
+    @param username: The username of the user who is editing one of their lists.
+    @return: String of SQL command which updates a list.
+    '''
     prompt = input("Please provide the name of the book list you would like to change and its new name\n"
                 "If you would like to review your list(s) or their name(s), please use one of the previously defined actions\n"
                 "Usage: [list name], [new list name]\n")
@@ -84,7 +88,13 @@ def edit_user_list(username):
     return cmd
     
     
-def delete_user_list(username):
+def delete_user_list(username : str):
+    '''
+    Deletes an entire user list.
+
+    @param username: The username of the user who is deleting one of their lists.
+    @return: String of SQL command that deletes a list for a user.
+    '''
     lists = get_user_lists(username)
     if (len(lists) == 0):
         print("You do not have any lists to delete.")
@@ -172,7 +182,12 @@ def create_user_list(username: str):
 
 
 def add_to_list(username : str):
+    '''
+    Allows a user to add a book to one of their lists.
 
+    @param username: The username of the user tho is adding a book to their list.
+    @return: Either string of SQL command or None.
+    '''
     lists = get_user_lists(username)
 
     if(len(lists) == 0):
@@ -221,7 +236,13 @@ def add_to_list(username : str):
     return None
 
 
-def delete_from_list(username):
+def delete_from_list(username : str):
+    '''
+    Deletes a book from a booklist.
+
+    @param username: The username of the user who is deleting a book from their list.
+    @return: SQL command to create a new list or None.
+    '''
     lists = get_user_lists(username)
 
     if(len(lists) == 0):
@@ -297,6 +318,12 @@ def unfollow_user(username:str):
         return
     
 def get_followings(username : str):
+    '''
+    Tells the user who they are following and how many followers they have.
+
+    @param username: The username of the user who is getting their followings.
+    @return: 1 if success or -1 if unsuccessful
+    '''
     print("\nPeople you are following:")
     cmd = "SELECT followingusername FROM followings WHERE followerusername='" + username + "';"
     follow = cp.execute_sql(cmd)
