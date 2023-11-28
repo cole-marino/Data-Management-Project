@@ -127,13 +127,14 @@ def main():
               \n4) View followings \
               \n5) Search books\
               \n6) Rate a book\
-              \n7) View your book lists\
-              \n8) Create a book list\
-              \n9) Delete a book list\
-              \n10) Edit a book list\
-              \n11) Add a book to a book list\
-              \n12) Delete a book from a book list\
-              \n13) Record a reading session\n(exit)")
+              \n7) View top 10 books\
+              \n8) View your book lists\
+              \n9) Create a book list\
+              \n10) Delete a book list\
+              \n11) Edit a book list\
+              \n12) Add a book to a book list\
+              \n13) Delete a book from a book list\
+              \n14) Record a reading session\n(exit)")
         exe = input()
         exe.lower()
 
@@ -155,18 +156,20 @@ def main():
             case "6":
                 command = bk.book_rate_parse(username)
             case "7":
-                ignore = user_acct.get_user_lists(username)
+                ignore = user_acct.get_top_books(username)
             case "8":
-                command = user_acct.create_user_list(username)
+                ignore = user_acct.get_user_lists(username)
             case "9":
-                command = user_acct.delete_user_list(username)
+                command = user_acct.create_user_list(username)
             case "10":
-                command = user_acct.edit_user_list(username)
+                command = user_acct.delete_user_list(username)
             case "11":
-                command = user_acct.add_to_list(username)
+                command = user_acct.edit_user_list(username)
             case "12":
-                command = user_acct.delete_from_list(username)
+                command = user_acct.add_to_list(username)
             case "13":
+                command = user_acct.delete_from_list(username)
+            case "14":
                 command = bk.book_Read_Parse(username)
             case "exit":
                 sys.exit()
