@@ -327,7 +327,7 @@ def get_followings(username : str):
     print("\nPeople you are following:")
     cmd = "SELECT followingusername FROM followings WHERE followerusername='" + username + "';"
     follow = cp.execute_sql(cmd)
-    print(follow)
+    #print(follow)
 
     if(follow==-1):
         return -1
@@ -351,25 +351,39 @@ def get_followings(username : str):
     return 1
 
 def get_top_books(username : str):
-    print("Your top 10 books by rating are:")
-    cmd = "SELECT TOP 10 b.title, b.length, ROUND(CAST(b.avgrating as numeric), 2), string_agg(DISTINCT(CONCAT(pe.fname,' ', pe.lname)), ', ') AS authors, pu.name AS Publisher, string_agg(DISTINCT(gb.gname), ', ') as genres \n" \
-            "FROM (SELECT b1.title, b1.length, b1.bid, b1.pid, b1.releasedate, AVG(br.rating) as avgrating \n" \
-            "FROM book b1 \n" \
-            "WHERE username='" + username + "'\n" \
-            "LEFT JOIN bookratings br ON b1.bid = br.bid \n" \
-            "GROUP BY b1.bid) AS b \n" \
-            "LEFT JOIN bookratings AS br ON b.bid = br.bid \n" \
-            "INNER JOIN authors AS a ON b.bid = a.bid \n" \
-            "INNER JOIN genrebook AS gb ON b.bid = gb.bid \n" \
-            "INNER JOIN publisher AS pu ON b.pid = pu.pid \n" \
-            "INNER JOIN person AS pe ON a.cid = pe.cid \n" \
-            "GROUP BY b.bid, pu.pid, b.title, b.length, b.avgrating, b.releasedate \n" \
-            "ORDER BY ROUND(CAST(b.avgrating as numeric), 2) ASC;\n"
-    
+    '''
+    Gets the top 10 books for a user based on their rating
+    @param username: Username of the user
+    @return: Output of SQL command
+    '''
+    print("Your top 10 books by your rating are:")
+    cmd = "SELECT DISTINCT avg(br.rating) as avgrating, b.title, b.length \n" \
+            "FROM bookratings br \n" \
+            "INNER JOIN book b ON b.bid = br.bid \n" \
+            "INNER JOIN bookreads bre ON b.bid = bre.bid \n" \
+            "WHERE bre.username='" \
+            + username + "' \n" \
+            "GROUP BY b.bid, br.bid, b.length \n" \
+            "ORDER BY avgrating DESC \n" \
+            "LIMIT 10;\n"
+
     out = cp.execute_sql(cmd)
 
-    if(out is not [] or out is not -1):
-        print(out)
+    # prints books or gives error
+    if(len(out) is 0):
+        print("You have not read any books. Maybe you should some time!")
+    elif(out is not [] and out is not -1):
+        # prints the books
+        count=0
+        for book in out:
+            count+=1
+            print((str(count))+") " + book[1] + " || Rating: " + (str(book[0])) + " || Pages: " + (str(book[2])))
+        
+        # if there were not 10 books prints, the empty entries are listed.
+        if(count is not 10):
+            for i in range(count, 10):
+                print((str(i)) + ") None. You should read more books!")
+
         return 1
     else:
         print("Could not retrieve your top 10 books read.")
