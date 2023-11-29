@@ -346,8 +346,6 @@ def get_followings(username : str):
         print(user[0])
     print()
 
-
-
     return 1
 
 def get_top_books(username : str):
@@ -391,6 +389,10 @@ def get_top_books(username : str):
 
 
 def get_top_five_new_books_of_month():
+    '''
+        Displays the top five new books of the month
+        @return: success/failure
+    '''
     print("Top five books of the month are:")
     cmd = "SELECT bid, title, releasedate \
            FROM book \
@@ -409,6 +411,11 @@ def get_top_five_new_books_of_month():
         return -1
     
 def get_top_books_followers(username):
+    '''
+        Displays the top books from a users followers
+        @param username: The username of the user
+        @return: Success/failure
+    '''
     print("Top twenty books among followers are:")
     cmd = "SELECT b.bid, b.title, COUNT(br.bid) as read_count \
            FROM book b \
@@ -432,8 +439,13 @@ def get_top_books_followers(username):
         return -1
         
 def get_book_reccomendations(username):
+    '''
+        Disaplays recommended books for the user
+        @param username: The username of the user
+        @return: Success/failure
+    '''
     print("Reccomended books for you:")
-    cmd = "WITH your_genres AS (\
+    cmd = "WITH yourgenres AS (\
             SELECT g.gname\
             FROM genrebook g\
             JOIN bookreads br ON g.bid = br.bid\
@@ -445,7 +457,7 @@ def get_book_reccomendations(username):
             SELECT DISTINCT b.bid, b.title\
             FROM book b\
             JOIN genrebook gb ON b.bid = gb.bid\
-            WHERE gb.gname IN (SELECT gname FROM your_genres)\
+            WHERE gb.gname IN (SELECT gname FROM yourgenres)\
             AND b.bid NOT IN (\
                 SELECT bid FROM bookreads WHERE username = '"+username+"'\
             )\
