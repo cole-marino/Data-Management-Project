@@ -135,10 +135,12 @@ def main():
               \n11) Edit a book list\
               \n12) Add a book to a book list\
               \n13) Delete a book from a book list\
-              \n14) Record a reading session\n(exit)\
+              \n14) Record a reading session\
               \n15) View top 5 books of the month\
               \n16) View top 20 books among followers\
-              \n17) View your reccomended books")
+              \n17) View your reccomended books\
+              \n(exit)")
+              
         exe = input()
         exe.lower()
 
