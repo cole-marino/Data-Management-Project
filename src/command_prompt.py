@@ -140,6 +140,7 @@ def main():
               \n15) View top 5 books of the month\
               \n16) View top 20 books among followers\
               \n17) View your reccomended books\
+              \n18) View your top 10 books\
               \n(exit)")
               
         exe = input()
@@ -179,11 +180,13 @@ def main():
             case "14":
                 command = bk.book_Read_Parse(username)
             case "15":
-                command = user_acct.get_top_five_new_books_of_month()
+                ignore = user_acct.get_top_five_new_books_of_month()
             case "16":
-                command = user_acct.get_top_books_followers(username)
+                ignore = user_acct.get_top_books_followers(username)
             case "17":
-                command = user_acct.get_book_reccomendations(username)
+                ignore = user_acct.get_book_reccomendations(username)
+            case "18":
+                ignore = user_acct.get_top_books(username)
             case "exit":
                 sys.exit()
             case _:
@@ -194,6 +197,7 @@ def main():
 
         if command != None:
             print("\nRunning command....")
+            print(command)
             result = execute_sql(command)
             print(result)
 
