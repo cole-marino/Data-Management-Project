@@ -387,3 +387,76 @@ def get_top_books(username : str):
     else:
         print("Could not retrieve your top 10 books read.")
         return -1
+    
+
+
+def get_top_five_new_books_of_month():
+    print("Top five books of the month are:")
+    cmd = "SELECT bid, title, releasedate \
+           FROM book \
+           WHERE releasedate >= DATE_TRUNC('month', CURRENT_DATE) \
+           AND releasedate < (DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '1 month') \
+           ORDER BY releasedate DESC \
+           LIMIT 5;"
+    
+    out = cp.execute_sql(cmd)
+
+    if(out is not [] or out is not -1):
+        print(out)
+        return 1
+    else:
+        print("Could not get top five books of the month.")
+        return -1
+    
+def get_top_books_followers(username):
+    print("Top twenty books among followers are:")
+    cmd = "SELECT b.bid, b.title, COUNT(br.bid) as read_count \
+           FROM book b \
+            JOIN bookreads br ON b.bid = br.bid \
+            WHERE br.username IN ( \
+                SELECT f.followingusername \
+                FROM followings f \
+                WHERE f.followerusername = '"+username+"') \
+            GROUP BY b.bid, b.title \
+            ORDER BY read_count DESC \
+            LIMIT 20;"
+                
+        
+    out = cp.execute_sql(cmd)
+
+    if(out is not [] or out is not -1):
+        print(out)
+        return 1
+    else:
+        print("Could not get top five books of the month.")
+        return -1
+        
+def get_book_reccomendations(username):
+    print("Reccomended books for you:")
+    cmd = "WITH your_genres AS (\
+            SELECT g.gname\
+            FROM genrebook g\
+            JOIN bookreads br ON g.bid = br.bid\
+            WHERE br.username = '"+username+"'\
+            GROUP BY g.gname\
+            ORDER BY COUNT(*) DESC\
+            LIMIT 5\
+            )\
+            SELECT DISTINCT b.bid, b.title\
+            FROM book b\
+            JOIN genrebook gb ON b.bid = gb.bid\
+            WHERE gb.gname IN (SELECT gname FROM your_genres)\
+            AND b.bid NOT IN (\
+                SELECT bid FROM bookreads WHERE username = '"+username+"'\
+            )\
+            LIMIT 20;"
+                
+        
+    out = cp.execute_sql(cmd)
+
+    if(out is not [] or out is not -1):
+        print(out)
+        return 1
+    else:
+        print("Could not get you reccomended books.")
+        return -1
