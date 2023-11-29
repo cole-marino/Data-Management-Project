@@ -381,7 +381,8 @@ def get_top_books(username : str):
         
         # if there were not 10 books prints, the empty entries are listed.
         if(count is not 10):
-            for i in range(count, 10):
+            count+=1
+            for i in range(count, 11):
                 print((str(i)) + ") None. You should read more books!")
 
         return 1
