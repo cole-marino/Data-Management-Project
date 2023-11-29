@@ -71,8 +71,9 @@ def execute_sql(sql):
                     print(sql)
                     conn.close()
                     return -1
-            except:
+            except Exception as e:
                 print("ERROR: SQL Command invalid.")
+                print(e)
                 return -1
             
             # checks if it worked
@@ -134,7 +135,10 @@ def main():
               \n11) Edit a book list\
               \n12) Add a book to a book list\
               \n13) Delete a book from a book list\
-              \n14) Record a reading session\n(exit)")
+              \n14) Record a reading session\n(exit)\
+              \n15) View top 5 books of the month\
+              \n16) View top 20 books among followers\
+              \n17) View your reccomended books")
         exe = input()
         exe.lower()
 
@@ -171,6 +175,12 @@ def main():
                 command = user_acct.delete_from_list(username)
             case "14":
                 command = bk.book_Read_Parse(username)
+            case "15":
+                command = user_acct.get_top_five_new_books_of_month()
+            case "16":
+                command = user_acct.get_top_books_followers(username)
+            case "17":
+                command = user_acct.get_book_reccomendations(username)
             case "exit":
                 sys.exit()
             case _:
