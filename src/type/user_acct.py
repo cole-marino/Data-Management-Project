@@ -8,6 +8,7 @@
 import command_prompt as cp
 import operations.book as book
 import pandas as pd
+import numpy as np
 
 
 def view_user_list(username, list_name):
@@ -442,7 +443,7 @@ def get_top_books_followers(username):
         
 def get_book_reccomendations(username):
     '''
-        Disaplays recommended books for the user
+        Displays recommended books for the user
         @param username: The username of the user
         @return: Success/failure
     '''
@@ -474,4 +475,33 @@ def get_book_reccomendations(username):
         return 1
     else:
         print("Could not get you reccomended books.")
+        return -1
+
+
+def get_20_rolling():
+    """
+    Gets top 20 books over the last 90 days
+    :return: success/failure
+    """
+
+    print("top 20 books over the last 90 days:")
+
+    cmd = "SELECT b.title\n" \
+          "FROM book b\n" \
+          "INNER JOIN bookreads br ON br.bid = b.bid\n" \
+          "WHERE br.startdate > CURRENT_DATE - 90\n" \
+          "GROUP BY br.bid, b.bid\n" \
+          "ORDER BY SUM(pagesread) DESC\n" \
+          "LIMIT 20;"
+
+    out = cp.execute_sql(cmd)
+
+    if (out is not [] or out is not -1):
+        tab_output = pd.DataFrame(out, columns=["Title"])
+        tab_output.index = np.arange(1, len(tab_output) + 1)
+
+        print(tab_output.to_string())
+        return 1
+    else:
+        print("Could not retrieve books.")
         return -1

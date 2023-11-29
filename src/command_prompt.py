@@ -141,6 +141,7 @@ def main():
               \n16) View top 20 books among followers\
               \n17) View your reccomended books\
               \n18) View your top 10 books\
+              \n19) View top 20 books over the last 90 days\
               \n(exit)")
               
         exe = input()
@@ -187,6 +188,8 @@ def main():
                 ignore = user_acct.get_book_reccomendations(username)
             case "18":
                 ignore = user_acct.get_top_books(username)
+            case "19":
+                ignore = user_acct.get_20_rolling()
             case "exit":
                 sys.exit()
             case _:
