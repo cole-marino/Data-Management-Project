@@ -122,10 +122,11 @@ def main():
     # read from stdin
     while(True):
 
-        print("\nMain Menu, choose action with corresponding number \n1) Account Settings\
+        print("\nMain Menu, choose action with corresponding number \
+              \n1) Account Settings\
               \n2) Follow user\
               \n3) Unfollow user\
-              \n4) View followings \
+              \n4) View followings\
               \n5) Search books\
               \n6) Rate a book\
               \n7) View top 10 books\
