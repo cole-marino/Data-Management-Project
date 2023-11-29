@@ -356,8 +356,8 @@ def get_top_books(username : str):
     @param username: Username of the user
     @return: Output of SQL command
     '''
-    print("Your top 10 books by your rating are:")
-    cmd = "SELECT DISTINCT avg(br.rating) as avgrating, b.title, b.length \n" \
+    print("\nYour top 10 books by your rating are:")
+    cmd = "SELECT DISTINCT ROUND(CAST(avg(br.rating) as numeric), 2) as avgrating, b.title, b.length \n" \
             "FROM bookratings br \n" \
             "INNER JOIN book b ON b.bid = br.bid \n" \
             "INNER JOIN bookreads bre ON b.bid = bre.bid \n" \
@@ -370,9 +370,7 @@ def get_top_books(username : str):
     out = cp.execute_sql(cmd)
 
     # prints books or gives error
-    if(len(out) is 0):
-        print("You have not read any books. Maybe you should some time!")
-    elif(out is not [] and out is not -1):
+    if(out is not [] and out is not -1):
         # prints the books
         count=0
         for book in out:
