@@ -404,7 +404,10 @@ def get_top_five_new_books_of_month():
     out = cp.execute_sql(cmd)
 
     if(out is not [] or out is not -1):
-        print(out)
+        count+=1
+        for book in out:
+            print((str(count)) + ") " + book[1] + " || Release Date: " + book[2])
+            count+=1
         return 1
     else:
         print("Could not get top five books of the month.")
@@ -418,7 +421,7 @@ def get_top_books_followers(username):
     '''
     print("Top twenty books among followers are:")
     cmd = "SELECT b.bid, b.title, COUNT(br.bid) as read_count \
-           FROM book b \
+            FROM book b \
             JOIN bookreads br ON b.bid = br.bid \
             WHERE br.username IN ( \
                 SELECT f.followingusername \
@@ -432,7 +435,12 @@ def get_top_books_followers(username):
     out = cp.execute_sql(cmd)
 
     if(out is not [] or out is not -1):
-        print(out)
+
+        # Prints the books
+        count=1
+        for book in out:
+            print((str(count))+") " + book[1])
+            count+=1
         return 1
     else:
         print("Could not get top five books of the month.")
@@ -467,7 +475,10 @@ def get_book_reccomendations(username):
     out = cp.execute_sql(cmd)
 
     if(out is not [] or out is not -1):
-        print(out)
+        count=1
+        for book in out:
+            print((str(count)) + ") " + book[1])
+            count+=1
         return 1
     else:
         print("Could not get you reccomended books.")
