@@ -442,8 +442,6 @@ def get_top_books_followers(username):
         for book in out:
             print((str(count))+") " + book[1])
             count+=1
-        for i in out:
-            print(i[1])
         return 1
     else:
         print("Could not get top five books of the month.")
