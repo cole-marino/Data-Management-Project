@@ -109,9 +109,6 @@ def update(username : str):
             print("Invalid entry. Try again.\n")
             return update(username)
 
-    return None
-
-
 
 def settings(username : str):
     '''

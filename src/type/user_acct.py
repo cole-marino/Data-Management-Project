@@ -119,16 +119,6 @@ def get_user_lists(username):
     
     print("\nYour Collections:")
     result = print_all_lists(username)
-        
-    # Showing all books within a list isn't required in this phase and it doesn't work correctly anyways
-    # so I decided to comment it out - Hunter
-    
-    # list_num = input("\nEnter list number to view list, type 'menu' to return to menu.\n")
-    # if (list_num != 'menu'):
-    #     list_num = int(list_num)
-    #     print() # creates spacing
-    #     if isinstance(list_num, int):
-    #         view_user_list(username, result[list_num-1][1])
     
     print() #spacing
     

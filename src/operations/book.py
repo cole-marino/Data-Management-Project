@@ -82,7 +82,6 @@ def book_search_cmd(name, r_date, author, publisher, genre):
     cmd_list = []
 
     # look through each parameter being inputted and
-
     if name != "N/A" :
         cmd_list.append("b.title LIKE \'%" + name + "%\'")
 
@@ -129,8 +128,6 @@ def book_search_cmd(name, r_date, author, publisher, genre):
                "GROUP BY b.bid, pu.pid, b.title, b.length, b.avgrating, b.releasedate \n" \
                "ORDER BY b.title ASC, b.releasedate ASC;\n"
 
-    #print(cmd_book)
-
     return cmd_book
 
 
@@ -139,7 +136,6 @@ def book_rate_parse(username):
     "Houses the bookRate Function for use in the command prompt interface. provides a user prompt for info."
     :return: SQL command
     """
-
     prompt = input("Please provide the book and its rating (1-5)\n"
                    "Usage: [book], [rating]\n")
     cmd_input = prompt.strip().split(", ")
